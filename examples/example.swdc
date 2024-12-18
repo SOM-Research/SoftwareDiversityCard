@@ -1,6 +1,38 @@
-deploymentContext contextUno
-    socialContext socialUno
-        description: 'chumpinflas'
-        region: 'US'
-        spokenLanguages: ['en-US', 'es-US']
-        culturalTraits: ['una', 'dos', 'tres']
+country USA
+    shortName: 'USA'
+    fullName: 'United States of America'
+    alpha2Code: 'US'
+
+language English
+    language: 'English'
+    code: 'en'
+
+internalRole chumpinflas
+    description: 'adfkjdfksdjfkdf'
+
+internalParticipant dfdsfparticip
+    participantId: 'semo'
+    profile:
+        personalCharacteristics:
+            age: 46
+            ethnicity: 'Asian'
+            gender: 'female'
+        culturalCharacteristics:
+            spokenLanguages: [English]
+            skillLevel: 'medium'
+
+internalParticipant afdsfparticip
+    participantId: 'enca'
+    profile:
+        personalCharacteristics:
+            age: 45
+            ethnicity: 'Black'
+            gender: 'male'
+        culturalCharacteristics:
+            spokenLanguages: [English]
+            skillLevel: 'high'
+
+developmentTeam:
+    internalParticipants: [(dfdsfparticip,chumpinflas), (afdsfparticip,chumpinflas)]
+    aggregatedProfile:
+        description: 'adfadfdf'
