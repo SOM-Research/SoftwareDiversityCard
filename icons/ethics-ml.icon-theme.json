@@ -1,0 +1,10 @@
+{
+    "iconDefinitions": {
+      "_ethicsml": {
+          "iconPath": "./File.svg",
+      }
+    },
+    "languageIds":{
+      "ethics-ml":"_ethicsml"
+    }
+  }

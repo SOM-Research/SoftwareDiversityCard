@@ -1,0 +1,132 @@
+{
+    "name": "SoftwareDiversityCard",
+    "description": "SoftwareDiversityCard is a domain-specific language plug-in to describe social characteristics of a software development initiative.",
+    "version": "0.0.1",
+    "files": [
+        "bin",
+        "out",
+        "src"
+    ],
+    "publisher": "SOMResearchGroup",
+    "author": {
+        "name": "Sergio Morales"
+    },
+    "homepage": "https://github.com/SOM-Research/SoftwareDiversityCard",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SOM-Research/SoftwareDiversityCard"
+    },
+    "keywords": [
+        "Software Engineering",
+        "Diversity",
+        "Inclusion"
+    ],
+    "license": "GPLv3",
+    "type": "module",
+    "scripts": {
+        "build": "tsc -b tsconfig.json && node esbuild.mjs",
+        "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.json --watch\" \"node esbuild.mjs --watch\"",
+        "lint": "eslint src --ext ts",
+        "langium:generate": "langium generate",
+        "langium:watch": "langium generate --watch",
+        "vscode:prepublish": "npm run build && npm run lint"
+    },
+    "dependencies": {
+        "chalk": "~5.3.0",
+        "commander": "~10.0.0",
+        "langium": "~2.0.0",
+        "vscode-languageclient": "~8.0.2"
+    },
+    "devDependencies": {
+        "@types/node": "~16.18.11",
+        "@types/vscode": "~1.67.0",
+        "@typescript-eslint/eslint-plugin": "~5.58.0",
+        "@typescript-eslint/parser": "~5.58.0",
+        "concurrently": "^7.6.0",
+        "esbuild": "^0.18.14",
+        "eslint": "~8.33.0",
+        "langium-cli": "~2.0.0",
+        "typescript": "~5.0.4"
+    },
+    "displayName": "SoftwareDiversityCard",
+    "engines": {
+        "vscode": "^1.67.0",
+        "node": ">=16.0.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "swdc-dsl",
+                "aliases": [
+                    "SoftwareDiversityCard",
+                    "swdc-dsl"
+                ],
+                "extensions": [
+                    ".swdc",
+                    ".sdc"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "swdc-dsl",
+                "scopeName": "source.swdc-dsl",
+                "path": "./syntaxes/swdc-dsl.tmLanguage.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "swdc-dsl.generateJson",
+                "title": "Generate JSON",
+                "shortTitle": "Generate JSON",
+                "category": "SoftwareDiversityCard",
+                "icon": {
+                    "light": "icons/json.png",
+                    "dark": "icons/json.png"
+                }
+            },
+            {
+                "command": "swdc-dsl.saveJsonDocument",
+                "title": "Save JSON",
+                "shortTitle": "Save JSON",
+                "category": "SoftwareDiversityCard",
+                "icon": {
+                    "light": "icons/download.png",
+                    "dark": "icons/download.png"
+                }
+            }
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "when": "resourceLangId == swdc-dsl",
+                    "command": "swdc-dsl.generateJson",
+                    "group": "navigation"
+                },
+                {
+                    "when": "liveJSONPreviewer",
+                    "command": "swdc-dsl.saveJsonDocument",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "iconThemes": [
+            {
+                "id": "swdcdsl",
+                "label": "Software Diversity Card",
+                "path": "./icons/swdc-dsl.icon-theme.json"
+            }
+        ]
+    },
+    "activationEvents": [
+        "onLanguage:swdc-dsl"
+    ],
+    "main": "./out/extension/main.cjs",
+    "bin": {
+        "ethics-ml-cli": "./bin/cli.js"
+    }
+}

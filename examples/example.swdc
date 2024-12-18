@@ -1,0 +1,6 @@
+deploymentContext contextUno
+    socialContext socialUno
+        description: 'chumpinflas'
+        region: 'US'
+        spokenLanguages: ['en-US', 'es-US']
+        culturalTraits: ['una', 'dos', 'tres']

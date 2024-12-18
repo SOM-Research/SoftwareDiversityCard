@@ -1,0 +1,12 @@
+{
+    "projectName": "SoftwareDiversityCard",
+    "languages": [{
+        "id": "swdc-dsl",
+        "grammar": "src/language/swdc-dsl.langium",
+        "fileExtensions": [".sdc", ".swdc"],
+        "textMate": {
+            "out": "syntaxes/swdc-dsl.tmLanguage.json"
+        }
+    }],
+    "out": "src/language/generated"
+}
