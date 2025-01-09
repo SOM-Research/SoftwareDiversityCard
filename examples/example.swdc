@@ -7,32 +7,53 @@ language English
     language: 'English'
     code: 'en'
 
-internalRole chumpinflas
-    description: 'adfkjdfksdjfkdf'
+organization ole
+    personalCharacteristics:
+        startingAgeRange: 23
+        endingAgeRange: 46
+        ethnicities: ['Asian', 'White']
+        genders: ['male', 'female']
+    culturalCharacteristics:
+        socioEconomicStati: [upperClass, upperMiddleClass]
+        skillLevels: [advanced]
+        averageTenure: 368966
 
-internalParticipant dfdsfparticip
+participant dfdsfparticip
+    personalCharacteristics:
+        age: 46
+        ethnicity: 'Asian'
+        gender: 'female'
+        country: USA
+    culturalCharacteristics:
+        spokenLanguages: [(English,c1)]
+        skillLevel: proficient
     participantId: 'semo'
-    profile:
-        personalCharacteristics:
-            age: 46
-            ethnicity: 'Asian'
-            gender: 'female'
-        culturalCharacteristics:
-            spokenLanguages: [English]
-            skillLevel: 'medium'
 
-internalParticipant afdsfparticip
+participant afdsfparticip
+    personalCharacteristics:
+        age: 45
+        ethnicity: 'Black'
+        gender: 'male'
+    culturalCharacteristics:
+        spokenLanguages: [(English,b2)]
+        skillLevel: advanced
     participantId: 'enca'
-    profile:
-        personalCharacteristics:
-            age: 45
-            ethnicity: 'Black'
-            gender: 'male'
-        culturalCharacteristics:
-            spokenLanguages: [English]
-            skillLevel: 'high'
 
-developmentTeam:
-    internalParticipants: [(dfdsfparticip,chumpinflas), (afdsfparticip,chumpinflas)]
-    aggregatedProfile:
-        description: 'adfadfdf'
+developmentTeam chumpinflas
+    personalCharacteristics:
+        startingAgeRange: 34
+        endingAgeRange: 46
+        ethnicities: ['Asian']
+        genders: ['male']
+    culturalCharacteristics:
+        socioEconomicStati: [upperClass]
+        skillLevels: [competent]
+        averageTenure: 4.3
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [(afdsfparticip,developer,11-08-2024,08-29-2025)]
+
+
+

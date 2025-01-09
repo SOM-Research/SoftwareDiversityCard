@@ -1,17 +1,13 @@
-// EL OUTPUT TIENE QUE TENER FORMATO 'JSON'
-// EL GENERADOR DARÁ UN .MD
-
 grammar SoftwareDiversityCard
 
 
 terminal ID: /[_a-zA-Z][\w_]*/;
-//terminal BOOLEAN: /true|false/;
-//BOOLEAN returns string: 'True' | 'False';
 terminal STRING: /"[^"]*"|'[^']*'/;
-//terminal FLOAT returns number: /1.0|0.[0-9]+/;
-terminal INT returns number: /[1-9][0-9]*/;
-terminal DOUBLE returns number: INT '.' INT;
-terminal DATE returns Date: /(3[01]|[12][0-9]|0?[1-9])(\/|-)(1[0-2]|0?[1-9])\2([0-9]{2})?[0-9]{2}/;
+//terminal INT returns number: /[1-9][0-9]*/;
+terminal INT returns number: /[0-9]+(\.[0-9])?/;
+Dash returns string: "-";
+DATE returns string: INT+Dash+INT+Dash+INT;
+//terminal DATE returns Date: /(3[01]|[12][0-9]|0?[1-9])(\/|-)(1[0-2]|0?[1-9])\2([0-9]{2})?[0-9]{2}/;
     // /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/; // ISO 8061
 
 //terminal ISO6391 returns string: /"[a-z]{2}"|'[a-z]{2}'/; // two-letter language codes defined in ISO 639-1
@@ -39,14 +35,14 @@ entry Model:
     (teams+=Team)*
     ;
 
-fragment StringArray:
+StringArray:
     '[' (stringElement+=STRING)
         ((','stringElement+=STRING)*']')?
     ;
 
-fragment DateRange:
-    dateRange += '{' (startingDate+=DATE) ',' (endingDate+=DATE) '}'
-    ;
+//fragment DateRange:
+    //(startingDate+=DATE) (',' (endingDate+=DATE))?
+    //;
 
 
 // *****************************************************************
@@ -64,6 +60,11 @@ Language:
     'language' name=ID
     ('language:' language=STRING)?
     ('code:' code=STRING)?//ISO6391)?
+    ;
+
+SpokenLanguage:
+    language=[Language:ID] ','
+    proficiency=LanguageLevelType
     ;
 
 RoleType returns string: 'reporter' | 'documentor' | 'translator' | 'developer' | 'commenter' | 'reactor' | 'reviewer' | 'merger' | 'developerRelations';
@@ -120,7 +121,7 @@ GovernanceIndividual:
 SocialContext:
     'socialContext' name=ID
     'description:' description=STRING
-    ('culturalTraits:' StringArray)?
+    ('culturalTraits:' culturalTraits=StringArray)?
     'country:' country=[Country:ID]
     ('spokenLanguages:' '[' (spokenLanguages+=[Language:ID])
         (',' spokenLanguages+=[Language:ID])*']')?
@@ -134,20 +135,20 @@ SocialContext:
 
 Participant:
     'participant' name=ID
-    'personalCharacteristics:' personalCharacteristic+=PersonalCharacteristic
-    'culturalCharacteristics:' culturalCharacteristic+=CulturalCharacteristic
+    'personalCharacteristics:' personalCharacteristics=PersonalCharacteristics
+    'culturalCharacteristics:' culturalCharacteristics=CulturalCharacteristics
     ('participantId:' participantId=STRING)?
     ;
 
-CulturalCharacteristic:
-    ('spokenLanguages:' '[(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')'
-        (',' '(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')')*']')?
+CulturalCharacteristics:
+    ('spokenLanguages:' '[(' spokenLanguages+=SpokenLanguage ')'
+        (',' '(' spokenLanguages+=SpokenLanguage ')')*']')?
     ('socioEconomicStatus:' socioEconomicStatus=SESType)?
     ('skillLevel:' skillLevel=SkillLevelType)?
-    ('tenure:' tenure=DOUBLE)?
+    ('tenure:' tenure=INT)?
     ;
 
-PersonalCharacteristic:
+PersonalCharacteristics:
     ('age:' age=INT)?
     ('ethnicity:' ethnicity=STRING)?
     ('gender:' gender=STRING)?
@@ -160,30 +161,31 @@ PersonalCharacteristic:
 // *****************************************************************
 
 fragment Entity:
-    'personalCharacteristics:' personalTeamCharacteristic+=PersonalTeamCharacteristic
-    'culturalCharacteristics:' culturalTeamCharacteristic+=CulturalTeamCharacteristic
+    'personalCharacteristics:' personalTeamCharacteristics=PersonalTeamCharacteristics
+    'culturalCharacteristics:' culturalTeamCharacteristics=CulturalTeamCharacteristics
     ;
 
-PersonalTeamCharacteristic:
+PersonalTeamCharacteristics:
     'startingAgeRange:' startingAgeRange=INT
     'endingAgeRange:' endingAgeRange=INT
-    'ethnicities:' StringArray
-    'genders:' StringArray
+    'ethnicities:' '[' ethnicities+=STRING
+        ((',' ethnicities+=STRING)*']')?
+    'genders:' '[' genders+=STRING
+        ((',' genders+=STRING)*']')?
     ;
 
-CulturalTeamCharacteristic:
-    ('spokenLanguages:' '[(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')'
-        (',' '(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')')*']')?
+CulturalTeamCharacteristics:
+    ('spokenLanguages:' '[(' spokenLanguages+=SpokenLanguage ')'
+        (',' '(' spokenLanguages+=SpokenLanguage ')')*']')?
     'socioEconomicStati:' '[' (socioEconomicStati+=SESType)
         (',' socioEconomicStati+=SESType)*']'
     'skillLevels:' '[' (skillLevels+=SkillLevelType)
         (',' skillLevels+=SkillLevelType)*']'
-    'averageTenure:' averageTenure=DOUBLE
+    'averageTenure:' averageTenure=INT
     ;
 
 Team:
-    (TesterTeam | 'developmentTeam' developmentTeam=InternalTeam | 'nonCodingContributorTeam' nonCodingContributor=InternalTeam | PublicReporterTeam |
-    TargetCommunity | 'organization' organization=Organization)
+    (TesterTeam | DevelopmentTeam | NonCodingContributorTeam | PublicReporterTeam)
     ;
 
 fragment TeamAttributes:
@@ -193,18 +195,30 @@ fragment TeamAttributes:
     'endDate:' endDate=DATE
     'teamSize:' teamSize=INT
     ('iterations:' iterations=INT)?
-    ('teamParticipants:' '[(' teamParticipants+=[Participant:ID] ',' teamParticipantsRoles+=RoleType ',' DateRange ')'
-        (',' '(' teamParticipants+=[Participant:ID] ',' teamParticipantsRoles+=RoleType ',' DateRange ')')*']')?
+    ('teamParticipants:' '[(' teamParticipants+=TeamParticipant ')'
+        (',' '(' teamParticipants+=TeamParticipant ')')*']')?
     (LabourForce)?
     ;
 
+TeamParticipant:
+    participant=[Participant:ID] ','
+    role=RoleType ','
+    startingDate=DATE
+    (',' endingDate+=DATE)?
+    ;
+
 fragment LabourForce:
-    'salary:' salary=DOUBLE
+    'salary:' salary=INT
     'labourRights:' StringArray
     'country:' country=[Country:ID]
     ;
 
-InternalTeam:
+DevelopmentTeam:
+    'developmentTeam'
+    TeamAttributes;
+
+NonCodingContributorTeam:
+    'nonCodingContributorTeam'
     TeamAttributes;
 
 TesterTeam:
@@ -220,7 +234,8 @@ PublicReporterTeam:
     ;
 
 Organization:
-    TeamAttributes
+    'organization' name=ID
+    Entity
     ;
 
 TargetCommunity:

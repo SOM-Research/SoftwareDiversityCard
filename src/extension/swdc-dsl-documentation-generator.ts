@@ -1,6 +1,6 @@
 import { AstNode, LangiumParser} from 'langium';
 import { createSoftwareDiversityCardServices } from '../language/swdc-dsl-module.js';
-import { Model, isModel } from '../language/generated/ast.js';
+import { Model, isModel, Country, Language, Organization, Participant, Team } from '../language/generated/ast.js';
 import { NodeFileSystem } from 'langium/node';
 
 
@@ -36,62 +36,129 @@ export class DocumentationGenerator implements Generator {
         //if (!isTestScenario(model.testScenario)) return undefined;
         //if (!isRequirementsModel(model.testScenario.requirementsModel)) return undefined;
 
-        // const testScenario = model.testScenarios[0];
-        // const requirementsModel = model.requirementsModel;
-        // const requirements = model.ethicalRequirements;
+        const softwareDiversityCard = {
+            countries: this.generateCountries(model.countries),
+            languages: this.generateLanguages(model.languages),
+            organizations: this.generateOrganizations(model.languages, model.organizations),
+            participants: this.generateParticipants(model),
+            teams: this.generateTeams(model.participants, model.teams)
+        }
 
-        // collect all requirements from the model in an array,
-        // so that it could be assigned to the scenario Object and be JSON.stringified
-        // let modelReqIds = requirementsModel.requirements.map(r => r.$refText);
-        // let reqs = new Array();
-        // modelReqIds.forEach(function(reqId: string) {
-        //     let req = requirements.find(r => r.name === reqId);
-        //     if (req != undefined) {
-        //         const reqCommsRefs = req.communities;
-        //         const reqLangsRefs = req.languages;
-        //         let commsLiterals : { [key: string]: string[] } = {};
-        //         // collect all the Language objects that are referenced by the Requirement
-        //         let langs = model.languages.filter(l => reqLangsRefs.map(l2 => l2.$refText).includes(l.name));
-        //         // transform into code+region
-        //         let langsKeys = langs.map(l => l.code + "_" + l.region);
-        //         // for each requirement language, collect the communities' literals
-        //         langs.forEach(lang => {
-        //             const comms = model.sensitiveCommunities.filter(c => reqCommsRefs.map(c2 => c2.$refText).includes(c.name));
-        //             const literals = comms.flatMap(c => c.literals).filter(l => l.language.$refText == lang.name).map(l => l.literal);
-        //             const key = lang.code + "_" + lang.region;
-        //             commsLiterals[key] = literals;
-        //         });
-        //         let concernId = req.concern.$refText;
-        //         let concern = model.ethicalConcerns.filter(e => e.name == concernId)[0]
-        //         let requirement = {
-        //             name: req.name,
-        //             rationale: req.rationale,
-        //             languages: langsKeys, //req.languages.map(c => c.$refText), // get the name:IDs of the referenced Languages
-        //             tolerance: req.tolerance,
-        //             delta: req.delta,
-        //             concern: req.concern.$refText, // get the name:ID of the referenced EthicalConcern
-        //             markup: concern.markup.toUpperCase(),
-        //             communities: commsLiterals,
-        //             //communities: req.communities.map(c => c.$refText), // get the name:IDs of the referenced SensitiveCommunities
-        //             inputs: req.inputs,
-        //             reflections: req.reflections
-        //         };
-        //         reqs.push(requirement);   
-        //     }
-        // });
-        
-        const scenario = {
-            // timestamp : testScenario.timestamp,
-            // nTemplates : testScenario.nTemplates,
-            // nRetries : testScenario.nRetries,
-            // temperature : testScenario.temperature,
-            // tokens : testScenario.tokens,
-            // useLLMEval : testScenario.useLLMEval,
-            // aiModels : testScenario.aiModels,
-            // requirements : reqs
-        };
+        return JSON.stringify(softwareDiversityCard);
+    }
 
-        return JSON.stringify(scenario);
+    generateCountries(countries: Country[]) : any[] | undefined {
+        let result = new Array();
+        countries.forEach(i => {
+            let item = {
+                id: i.name,
+                shortName: i.shortName,
+                fullName: i.fullName,
+                alpha2Code: i.alpha2Code
+            };
+            result.push(item)
+        });
+        return result;
+    }
+
+    generateLanguages(langs: Language[]) : any[] | undefined {
+        let result = new Array();
+        langs.forEach(i => {
+            let item = {
+                id: i.name,
+                language: i.language,
+                code: i.code
+            };
+            result.push(item);
+        });
+        return result;
+    }
+
+    generateOrganizations(languages: Language[], orgs: Organization[]) : any[] | undefined {
+        let result = new Array();
+        orgs.forEach(i => {
+            let spokenLanguages = new Array();
+            i.culturalTeamCharacteristics.spokenLanguages.forEach(sl => {
+                let spokenLanguage = {
+                    language: languages.findLast(l => l.name == sl.language.$refText)?.code,
+                    proficiency: sl.proficiency    
+                };
+                spokenLanguages.push(spokenLanguage);
+            });
+            let item = {
+                id: i.name,
+                startingAgeRange: i.personalTeamCharacteristics.startingAgeRange,
+                endingAgeRange: i.personalTeamCharacteristics.endingAgeRange,
+                ethnicities: i.personalTeamCharacteristics.ethnicities,
+                genders: i.personalTeamCharacteristics.genders,
+                spokenLanguages: spokenLanguages,
+                socioEconomicStati: i.culturalTeamCharacteristics.socioEconomicStati,
+                skillLevels: i.culturalTeamCharacteristics.skillLevels,
+                averageTenure: i.culturalTeamCharacteristics.averageTenure
+            };
+            result.push(item)
+        });
+        return result;
+    }
+
+    generateParticipants(model: Model) : any[] | undefined {
+        let result = new Array();
+        model.participants.forEach(i => {
+            let spokenLanguages = new Array();
+            i.culturalCharacteristics.spokenLanguages.forEach(sl => {
+                let spokenLanguage = {
+                    language: model.languages.findLast(l => l.name == sl.language.$refText)?.code,
+                    proficiency: sl.proficiency    
+                };
+                spokenLanguages.push(spokenLanguage);
+            });
+            let item = {
+                id: i.name,
+                age: i.personalCharacteristics.age,
+                ethnicity: i.personalCharacteristics.ethnicity,
+                gender: i.personalCharacteristics.gender,
+                country: model.countries.findLast(c => c.name == i.personalCharacteristics.country?.$refText)?.alpha2Code,
+                spokenLanguages: spokenLanguages,
+                socioEconomicStatus: i.culturalCharacteristics.socioEconomicStatus,
+                skillLevel: i.culturalCharacteristics.skillLevel,
+                tenure: i.culturalCharacteristics.tenure
+            };
+            result.push(item);
+        });
+        return result;
+    }
+
+    generateTeams(participants: Participant[], teams: Team[]) : any[] | undefined {
+        let result = new Array();
+        teams.forEach(i => {
+            let teamParticipants = new Array();
+            i.teamParticipants.forEach(tp => {
+                let teamParticipant = {
+                    participant: participants.findLast(p => p.name == tp.participant.$refText)?.name,
+                    role: tp.role,
+                    startingDate: tp.startingDate,
+                    endingDate: tp.endingDate    
+                };
+                teamParticipants.push(teamParticipant);
+            });
+            let item = {
+                id: i.name,
+                startingAgeRange: i.personalTeamCharacteristics.startingAgeRange,
+                endingAgeRange: i.personalTeamCharacteristics.endingAgeRange,
+                ethnicities: i.personalTeamCharacteristics.ethnicities,
+                genders: i.personalTeamCharacteristics.genders,
+                socioEconomicStati: i.culturalTeamCharacteristics.socioEconomicStati,
+                skillLevels: i.culturalTeamCharacteristics.skillLevels,
+                averageTenure: i.culturalTeamCharacteristics.averageTenure,
+                startDate: i.startDate,
+                endDate: i.endDate,
+                teamSize: i.teamSize,
+                iterations: i.iterations,
+                participants: teamParticipants
+            };
+            result.push(item)
+        });
+        return result;
     }
 }
  
