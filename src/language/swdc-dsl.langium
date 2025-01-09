@@ -1,3 +1,6 @@
+// EL OUTPUT TIENE QUE TENER FORMATO 'JSON'
+// EL GENERADOR DARÁ UN .MD
+
 grammar SoftwareDiversityCard
 
 
@@ -23,26 +26,17 @@ entry Model:
     // MASTER INFO
     (countries+=Country)*
     (languages+=Language)*
-    (internalRoles+=InternalRole)*
-    //(profiles+=Profile)*
     // CONTEXT AND GOVERNANCE
-    (deploymentContext=DeploymentContext)?
-    (governance=Governance)?
+    (organizations+=Organization)*
+    (targetCommunities+=TargetCommunity)*
+    (governances+=Governance)*
+    (socialContexts+=SocialContext)*
+    (useCases+=UseCase)*
+    (adaptations+=Adaptation)*
     // PARTICIPANTS
     (participants+=Participant)*
-    //(internalParticipants+=InternalParticipant)* | (externalParticipants+=ExternalParticipant)* |
     // TEAMS
     (teams+=Team)*
-    //(crowdTesterTeams+=CrowdTesterTeam)* | (developmentTeams+=InternalTeam)* | (nonCodingContributors+=InternalTeam)* | (publicReporterTeams+=PublicReporterTeam)*
-    ;
-
-Participant:
-    InternalParticipant | ExternalParticipant
-    ;
-
-Team:
-    (CrowdTesterTeam | 'developmentTeam:' developmentTeam=InternalTeam | 'nonCodingContributorTeam:' nonCodingContributor=InternalTeam | PublicReporterTeam)
-    'aggregatedProfile:' AggregatedProfile
     ;
 
 fragment StringArray:
@@ -51,13 +45,8 @@ fragment StringArray:
     ;
 
 fragment DateRange:
-    dateRange = '{' (startDate=DATE) ',' (endDate=DATE) '}'
+    dateRange += '{' (startingDate+=DATE) ',' (endingDate+=DATE) '}'
     ;
-
-//fragment ProfileArray:
-//    '[' (profile+=[Profile:ID])
-//        ((','profile+=[Profile:ID])*']')?
-//    ;
 
 
 // *****************************************************************
@@ -77,19 +66,85 @@ Language:
     ('code:' code=STRING)?//ISO6391)?
     ;
 
-Profile:
-    //'profile' name=ID
-    ('personalCharacteristics:' personalCharacteristic+=PersonalCharacteristic)?
-    ('culturalCharacteristics:' culturalCharacteristic+=CulturalCharacteristic)?
+RoleType returns string: 'reporter' | 'documentor' | 'translator' | 'developer' | 'commenter' | 'reactor' | 'reviewer' | 'merger' | 'developerRelations';
+SESType returns string: 'upperClass' | 'upperMiddleClass' | 'middleClass' | 'lowerMiddleClass' | 'lowerClass';
+SkillLevelType returns string: 'expert' | 'proficient' | 'advanced' | 'competent' | 'beginner';
+LanguageLevelType returns string: 'a1' | 'a2' | 'b1' | 'b2' | 'c1' | 'c2';
+
+
+// *****************************************************************
+// CONTEXTS
+// *****************************************************************
+
+fragment TeamsArray:
+    ('relatedTeams:' '[' (relatedTeams+=[Team:ID])
+        (',' relatedTeams+=[Team:ID])*']')?
+    ;
+
+UseCase:
+    'useCase' name=ID
+    'description:' description=STRING
+    ('targetCommunities:' '[' (targetCommunities+=[TargetCommunity:ID])
+        (',' targetCommunities+=[TargetCommunity:ID])*']')?
+    ;
+
+Adaptation:
+    'adaptation' name=ID
+    'description:' description=STRING
+    ('release:' release=STRING)?
+    ('useCases:' '[' (useCases+=[UseCase:ID])
+        (',' useCases+=[UseCase:ID])*']')?
+    ('targetCommunities:' '[' (targetCommunities+=[TargetCommunity:ID])
+        (',' targetCommunities+=[TargetCommunity:ID])*']')?
+    TeamsArray
+    ;
+
+Governance:
+    'governance' name=ID
+    // projectType
+    ('governanceProcesses:' StringArray)?
+    ('funders:' (funders+=GovernanceParticipant)+)?
+    ('shareholders:' (shareholders+=GovernanceParticipant)+)?
+    ;
+
+GovernanceParticipant: GovernanceOrganization | GovernanceIndividual;
+
+GovernanceOrganization:
+    governanceOrganization=[Organization:ID]
+    ;
+
+GovernanceIndividual:
+    governanceIndividual=[Participant:ID]
+    ;
+
+SocialContext:
+    'socialContext' name=ID
+    'description:' description=STRING
+    ('culturalTraits:' StringArray)?
+    'country:' country=[Country:ID]
+    ('spokenLanguages:' '[' (spokenLanguages+=[Language:ID])
+        (',' spokenLanguages+=[Language:ID])*']')?
+    TeamsArray
+    ;
+
+
+// *****************************************************************
+// PARTICIPANTS
+// *****************************************************************
+
+Participant:
+    'participant' name=ID
+    'personalCharacteristics:' personalCharacteristic+=PersonalCharacteristic
+    'culturalCharacteristics:' culturalCharacteristic+=CulturalCharacteristic
+    ('participantId:' participantId=STRING)?
     ;
 
 CulturalCharacteristic:
-    ('spokenLanguages:' '[' (spokenLanguages+=[Language:ID])
-        (','spokenLanguages+=[Language:ID])*']')?
-    ('socioEconomicStatus:' socioEconomicStatus=STRING)?
-    //('languageProficiency:' languageProficiency=STRING
-    ('skillLevel:' skillLevel=STRING)?
-    ('tenure:' tenure=STRING)?
+    ('spokenLanguages:' '[(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')'
+        (',' '(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')')*']')?
+    ('socioEconomicStatus:' socioEconomicStatus=SESType)?
+    ('skillLevel:' skillLevel=SkillLevelType)?
+    ('tenure:' tenure=DOUBLE)?
     ;
 
 PersonalCharacteristic:
@@ -101,140 +156,74 @@ PersonalCharacteristic:
 
 
 // *****************************************************************
-// CONTEXTS
-// *****************************************************************
-
-fragment CrowdTestersArray:
-    ('relatedTesters:' '[' (relatedTesters+=[CrowdTesterTeam:ID])
-        (',' relatedTesters+=[CrowdTesterTeam:ID])*']')?
-    ;
-
-DeploymentContext:
-    'deploymentContext'
-    name=ID
-    ('useCases:' StringArray)?
-    socialContext=SocialContext
-    ('targetUsers:' (targetUsers+=TargetUser)+)?
-    ('adaptations:' (adaptations+=Adaptation)+)?
-    ;
-
-TargetUser:
-    'targetUser'
-    'description:' description=STRING
-    'profile:' profile=[Profile:ID]
-    ;
-
-Adaptation:
-    'adaptation'
-    'description:' description=STRING
-    ('components:' StringArray)?
-    CrowdTestersArray
-    ;
-
-Governance:
-    'governance' name=ID
-    // projectType
-    ('governanceProcesses:' StringArray)?
-    ('funders:' (funders+=GovernanceParticipant)+)?
-    ('shareholders:' (shareholders+=GovernanceParticipant)+)?
-    ;
-
-GovernanceParticipant: Organization | Individual;
-
-Organization:
-    'organization'
-    'name:' name=STRING
-    'description:' description=STRING
-    ;
-
-Individual:
-    'individual'
-    'profile:' profile=[Profile:ID]
-    ;
-
-SocialContext:
-    'socialContext' name=ID
-    'description:' description=STRING
-    'country:' country=[Country:ID]
-    ('spokenLanguages:' '[' (spokenLanguages+=[Language:ID])
-        (',' spokenLanguages+=[Language:ID])*']')?
-    ('culturalTraits:' StringArray)?
-    CrowdTestersArray
-    ;
-
-
-// *****************************************************************
-// PARTICIPANTS
-// *****************************************************************
-
-InternalParticipant:
-    'internalParticipant' name=ID
-    'participantId:' participantId=STRING
-    'profile:' Profile
-    ;
-
-ExternalParticipant:
-    'externalParticipant' name=ID
-    'profile:' Profile
-    ;
-
-
-// *****************************************************************
 // TEAMS
 // *****************************************************************
 
-AggregatedProfile:
-    'description:' description=STRING // TODO: to implement aggregated profiles
+fragment Entity:
+    'personalCharacteristics:' personalTeamCharacteristic+=PersonalTeamCharacteristic
+    'culturalCharacteristics:' culturalTeamCharacteristic+=CulturalTeamCharacteristic
     ;
 
-fragment ExternalParticipants:
-    ('externalParticipants:' '[' (externalParticipants+=[ExternalParticipant:ID])
-        (',' externalParticipants+=[ExternalParticipant:ID])*']')?
+PersonalTeamCharacteristic:
+    'startingAgeRange:' startingAgeRange=INT
+    'endingAgeRange:' endingAgeRange=INT
+    'ethnicities:' StringArray
+    'genders:' StringArray
     ;
 
-InternalRole:
-    'internalRole'
+CulturalTeamCharacteristic:
+    ('spokenLanguages:' '[(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')'
+        (',' '(' spokenLanguages+=[Language:ID] ',' spokenLanguagesLevel+=LanguageLevelType ')')*']')?
+    'socioEconomicStati:' '[' (socioEconomicStati+=SESType)
+        (',' socioEconomicStati+=SESType)*']'
+    'skillLevels:' '[' (skillLevels+=SkillLevelType)
+        (',' skillLevels+=SkillLevelType)*']'
+    'averageTenure:' averageTenure=DOUBLE
+    ;
+
+Team:
+    (TesterTeam | 'developmentTeam' developmentTeam=InternalTeam | 'nonCodingContributorTeam' nonCodingContributor=InternalTeam | PublicReporterTeam |
+    TargetCommunity | 'organization' organization=Organization)
+    ;
+
+fragment TeamAttributes:
     name=ID
-    'description:' description=STRING
+    Entity
+    'startDate:' startDate=DATE
+    'endDate:' endDate=DATE
+    'teamSize:' teamSize=INT
+    ('iterations:' iterations=INT)?
+    ('teamParticipants:' '[(' teamParticipants+=[Participant:ID] ',' teamParticipantsRoles+=RoleType ',' DateRange ')'
+        (',' '(' teamParticipants+=[Participant:ID] ',' teamParticipantsRoles+=RoleType ',' DateRange ')')*']')?
+    (LabourForce)?
     ;
 
-InternalTeam:
-    //'aggregatedProfile:' AggregatedProfile
-    ('internalParticipants:' '[(' internalParticipants+=[InternalParticipant:ID] ',' internalParticipantsRoles+=[InternalRole:ID] ')'
-        (',' '(' internalParticipants+=[InternalParticipant:ID] ',' internalParticipantsRoles+=[InternalRole:ID] ')')*']')?
-    ;
-
-CrowdTesterTeam:
-    'crowdTesterTeam' name=ID
-    'testingGuidelines:' testingGuidelines=STRING
-    // type
-    'appMaturity:' appMaturity=STRING
-    'timespan:' DateRange
-    'numberOfTesters:' numberOfTesters=INT
-    'iterations:' iterations=INT
-    //'aggregatedProfile:' AggregatedProfile
-    ExternalParticipants
-    (LabourForceCrowdTesterTeam)?
-    ;
-
-fragment LabourForceCrowdTesterTeam:
+fragment LabourForce:
     'salary:' salary=DOUBLE
     'labourRights:' StringArray
     'country:' country=[Country:ID]
     ;
 
-PublicReporterTeam:
-    'publicReporterTeam'
-    // type
-    'reportingMethod:' reportingMethod=STRING
-    'reportingPlatform:' reportingPlatform=STRING
-    //'aggregatedProfile:' AggregatedProfile
-    ExternalParticipants
+InternalTeam:
+    TeamAttributes;
+
+TesterTeam:
+    'testerTeam' TeamAttributes
+    'testingGuidelines:' testingGuidelines=STRING
+    'appMaturity:' appMaturity=STRING
     ;
 
+PublicReporterTeam:
+    'publicReporterTeam' TeamAttributes
+    'reportingMethod:' reportingMethod=STRING
+    'reportingPlatform:' reportingPlatform=STRING
+    ;
 
-// *****************************************************************
-// EXAMPLES OF ENUMERATIONS
-// *****************************************************************
-// PromptType returns string: 'Open' | 'Adversarial';
-// AssessmentType returns string: 'Observational' | 'Utopian';
+Organization:
+    TeamAttributes
+    ;
+
+TargetCommunity:
+    'targetCommunity' TeamAttributes
+    'description:' description=STRING
+    ;
