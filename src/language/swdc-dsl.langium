@@ -4,9 +4,9 @@ grammar SoftwareDiversityCard
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal STRING: /"[^"]*"|'[^']*'/;
 //terminal INT returns number: /[1-9][0-9]*/;
-terminal INT returns number: /[0-9]+(\.[0-9])?/;
+terminal NUMBER returns number: /[0-9]+(\.[0-9])?/;
 Dash returns string: "-";
-DATE returns string: INT+Dash+INT+Dash+INT;
+DATE returns string: NUMBER+Dash+NUMBER+Dash+NUMBER;
 //terminal DATE returns Date: /(3[01]|[12][0-9]|0?[1-9])(\/|-)(1[0-2]|0?[1-9])\2([0-9]{2})?[0-9]{2}/;
     // /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/; // ISO 8061
 
@@ -145,11 +145,11 @@ CulturalCharacteristics:
         (',' '(' spokenLanguages+=SpokenLanguage ')')*']')?
     ('socioEconomicStatus:' socioEconomicStatus=SESType)?
     ('skillLevel:' skillLevel=SkillLevelType)?
-    ('tenure:' tenure=INT)?
+    ('tenure:' tenure=NUMBER)?
     ;
 
 PersonalCharacteristics:
-    ('age:' age=INT)?
+    ('age:' age=NUMBER)?
     ('ethnicity:' ethnicity=STRING)?
     ('gender:' gender=STRING)?
     ('country:' country=[Country:ID])?
@@ -166,8 +166,8 @@ fragment Entity:
     ;
 
 PersonalTeamCharacteristics:
-    'startingAgeRange:' startingAgeRange=INT
-    'endingAgeRange:' endingAgeRange=INT
+    'startingAgeRange:' startingAgeRange=NUMBER
+    'endingAgeRange:' endingAgeRange=NUMBER
     'ethnicities:' '[' ethnicities+=STRING
         ((',' ethnicities+=STRING)*']')?
     'genders:' '[' genders+=STRING
@@ -181,7 +181,7 @@ CulturalTeamCharacteristics:
         (',' socioEconomicStati+=SESType)*']'
     'skillLevels:' '[' (skillLevels+=SkillLevelType)
         (',' skillLevels+=SkillLevelType)*']'
-    'averageTenure:' averageTenure=INT
+    'averageTenure:' averageTenure=NUMBER
     ;
 
 Team:
@@ -193,8 +193,8 @@ fragment TeamAttributes:
     Entity
     'startDate:' startDate=DATE
     'endDate:' endDate=DATE
-    'teamSize:' teamSize=INT
-    ('iterations:' iterations=INT)?
+    'teamSize:' teamSize=NUMBER
+    ('iterations:' iterations=NUMBER)?
     ('teamParticipants:' '[(' teamParticipants+=TeamParticipant ')'
         (',' '(' teamParticipants+=TeamParticipant ')')*']')?
     (LabourForce)?
@@ -208,7 +208,7 @@ TeamParticipant:
     ;
 
 fragment LabourForce:
-    'salary:' salary=INT
+    'salary:' salary=NUMBER
     'labourRights:' StringArray
     'country:' country=[Country:ID]
     ;
