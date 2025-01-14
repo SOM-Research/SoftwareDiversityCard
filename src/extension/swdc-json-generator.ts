@@ -1,41 +1,16 @@
-import { AstNode, LangiumParser} from 'langium';
-import { createSoftwareDiversityCardServices } from '../language/swdc-dsl-module.js';
-import { Model, isModel, Country, Language, Team, NoTeamEntity, isTargetCommunity, isOrganization, Governance, isGovernanceIndividual, GovernanceIndividual, isGovernanceOrganization, GovernanceOrganization, SocialContext, TargetCommunity, UseCase, Organization, Adaptation } from '../language/generated/ast.js';
-import { NodeFileSystem } from 'langium/node';
+import { Model, Country, Language, Team, NoTeamEntity, isTargetCommunity, isOrganization, Governance, isGovernanceIndividual, GovernanceIndividual, isGovernanceOrganization, GovernanceOrganization, SocialContext, TargetCommunity, UseCase, Organization, Adaptation } from '../language/generated/ast.js';
 
-
-export interface Generator {
-    // Load the Abstract Syntax Tree of the .swdc active file
-    generate(model : string | AstNode) : string | undefined;
-    // Receives the parsed AST, generates the JSON string, and returns it
-    model2Json(model : Model) : string | undefined;
+export interface IJSONGenerator {
+    model2Json(model : Model) : any | undefined;
 }
- 
-/**
-* JSON generator service main class
-*/
-export class JSONGenerator implements Generator {
 
-    private readonly parser: LangiumParser;
+export class JSONGenerator implements IJSONGenerator {
 
-    constructor() {       
-        const services = createSoftwareDiversityCardServices(NodeFileSystem);
-        this.parser = services.SoftwareDiversityCard.parser.LangiumParser;
-    }
-
-    generate(model : string) : string | undefined { // | AstNode) : string | undefined {
-        //const astNode = (typeof(Model) == 'string' ? this.parser.parse(Model).value : Model);
-        //return (isModel(astNode) ? this.model2Html(astNode) : undefined);
-        const astNode = this.parser.parse(model).value;
-        return (isModel(astNode) ? this.model2Json(astNode) : undefined);
-    }
-
-    // Generation of the output JSON string
-    model2Json(model : Model) : string | undefined {
+    model2Json(model : Model) : any | undefined {
 
         const organizations = model.organizationsAndTargetCommunities.filter(nte => isOrganization(nte)) as Organization[];
         const targetCommunities = model.organizationsAndTargetCommunities.filter(nte => isTargetCommunity(nte)) as TargetCommunity[];
-
+    
         const softwareDiversityCard = {
             // master info
             countries: this.generateCountries(model.countries),
@@ -51,10 +26,10 @@ export class JSONGenerator implements Generator {
             participants: this.generateParticipants(model),
             teams: this.generateTeams(model.teams)
         }
-
-        return JSON.stringify(softwareDiversityCard);
+    
+        return softwareDiversityCard;
     }
-
+    
     generateCountries(countries: Country[]) : any[] | undefined {
         let result = new Array();
         countries.forEach(i => {
@@ -68,7 +43,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateLanguages(langs: Language[]) : any[] | undefined {
         let result = new Array();
         langs.forEach(i => {
@@ -81,7 +56,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateNoTeamEntities(languages: Language[], ntes: NoTeamEntity[]) : any[] | undefined {
         let result = new Array();
         ntes.forEach(nte => {
@@ -109,7 +84,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateGovernances(govs: Governance[]) : any[] | undefined {
         let result = new Array();
         govs.forEach(i => {
@@ -125,7 +100,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateSocialContexts(countries: Country[], languages: Language[], contexts: SocialContext[]) : any[] | undefined {
         let result = new Array();
         contexts.forEach(i => {
@@ -141,7 +116,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateUseCases(useCases: UseCase[]) : any[] | undefined {
         let result = new Array();
         useCases.forEach(i => {
@@ -154,7 +129,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateAdaptations(adaptation: Adaptation[]) : any[] | undefined {
         let result = new Array();
         adaptation.forEach(i => {
@@ -170,7 +145,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateParticipants(model: Model) : any[] | undefined {
         let result = new Array();
         model.participants.forEach(i => {
@@ -197,7 +172,7 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
-
+    
     generateTeams(teams: Team[]) : any[] | undefined {
         let result = new Array();
         teams.forEach(i => {
@@ -208,7 +183,7 @@ export class JSONGenerator implements Generator {
                     participant: tp.participant.$refText,
                     role: tp.role,
                     startingDate: tp.startingDate,
-                    endingDate: tp.endingDate    
+                    endingDate: tp.endingDate
                 };
                 teamParticipants.push(teamParticipant);
             });
@@ -232,5 +207,5 @@ export class JSONGenerator implements Generator {
         });
         return result;
     }
+    
 }
- 

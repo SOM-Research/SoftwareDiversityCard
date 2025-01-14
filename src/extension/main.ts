@@ -2,7 +2,7 @@ import type { LanguageClientOptions, ServerOptions} from 'vscode-languageclient/
 import * as vscode from 'vscode';
 import * as path from 'node:path';
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
-import { JSONGenerator } from './swdc-dsl-json-generator.js';
+import { JSONDocumentGenerator } from './swdc-dsl-json-document-generator.js';
 import fs from 'fs';
 
 let client: LanguageClient;
@@ -85,7 +85,7 @@ async function generateJsonService(context: vscode.ExtensionContext) {
         }
     )
     setPreviewActiveContext(true);
-    const generator =  new JSONGenerator();
+    const generator =  new JSONDocumentGenerator();
     const text = vscode.window.activeTextEditor?.document.getText();
     if (text) {
         const returner = generator.generate(text);
