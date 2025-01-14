@@ -23,8 +23,9 @@ entry Model:
     (countries+=Country)*
     (languages+=Language)*
     // CONTEXT AND GOVERNANCE
-    (organizations+=Organization)*
-    (targetCommunities+=TargetCommunity)*
+    (organizationsAndTargetCommunities+=NoTeamEntity)*
+    //(organizations+=Organization)*
+    //(targetCommunities+=TargetCommunity)*
     (governances+=Governance)*
     (socialContexts+=SocialContext)*
     (useCases+=UseCase)*
@@ -103,7 +104,7 @@ Adaptation:
 Governance:
     'governance' name=ID
     // projectType
-    ('governanceProcesses:' StringArray)?
+    ('governanceProcesses:' governanceProcesses=StringArray)?
     ('funders:' (funders+=GovernanceParticipant)+)?
     ('shareholders:' (shareholders+=GovernanceParticipant)+)?
     ;
@@ -233,12 +234,15 @@ PublicReporterTeam:
     'reportingPlatform:' reportingPlatform=STRING
     ;
 
+NoTeamEntity: Organization | TargetCommunity;
+
 Organization:
     'organization' name=ID
     Entity
     ;
 
 TargetCommunity:
-    'targetCommunity' TeamAttributes
+    'targetCommunity' name=ID
     'description:' description=STRING
+    Entity
     ;
