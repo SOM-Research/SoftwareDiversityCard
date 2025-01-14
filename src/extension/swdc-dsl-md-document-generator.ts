@@ -40,8 +40,8 @@ export class MDDocumentGenerator implements Generator {
         
         result.push('# Software Diversity Card');
         result.push('## Entities and Individuals');
-        result.push(this.generateSubsection('### Participants', sdc.participants, participantLabels));
-        result.push(this.generateSubsection('### Teams', sdc.teams, teamLabels));
+        result.push(this.generateSubsection('### Participants', sdc.participants, participantLabels)); // TODO: spoken languages
+        result.push(this.generateSubsection('### Teams', sdc.teams, teamLabels)); // TODO: team participants
         result.push(this.generateSubsection('### Target Communities', sdc.targetCommunities, teamLabels.concat('description')));
         result.push(this.generateSubsection('### Organizations', sdc.organizations, teamLabels));
         result.push('## Contexts');
