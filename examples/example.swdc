@@ -34,6 +34,13 @@ useCase dfadf
     description: 'Caso de uso para la gente mayor'
     targetCommunities: [asdsaddescrip]
 
+adaptation afihdsif
+    description: 'Adaptación a sordos'
+    release: '1.0.0'
+    useCases: [dfadf]
+    targetCommunities: [asdsaddescrip]
+    relatedTeams: [chumpinflas, chumpinflasperomas]
+
 participant dfdsfparticip
     personalCharacteristics:
         age: 46
@@ -71,5 +78,20 @@ developmentTeam chumpinflas
     iterations: 3
     teamParticipants: [(afdsfparticip,developer,11-08-2024,08-29-2025)]
 
+developmentTeam chumpinflasperomas
+    personalCharacteristics:
+        startingAgeRange: 34
+        endingAgeRange: 46
+        ethnicities: ['Asian']
+        genders: ['male']
+    culturalCharacteristics:
+        socioEconomicStati: [upperClass]
+        skillLevels: [competent]
+        averageTenure: 4.3
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [(afdsfparticip,developer,11-08-2024,08-29-2025)]
 
 

@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import * as path from 'node:path';
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
 import { JSONDocumentGenerator } from './swdc-dsl-json-document-generator.js';
-import fs from 'fs';
+import { MDDocumentGenerator } from './swdc-dsl-md-document-generator.js';
 
 let client: LanguageClient;
 
@@ -15,8 +15,8 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(vscode.commands.registerCommand('swdc-dsl.generateJson', async () => {
         await generateJsonService(context);
     }));
-    context.subscriptions.push(vscode.commands.registerCommand('swdc-dsl.saveJsonDocument', async () => {
-        await saveJsonDocument(context);
+    context.subscriptions.push(vscode.commands.registerCommand('swdc-dsl.generateMd', async () => {
+        await generateMdService(context);
      }));
 }
 
@@ -68,10 +68,11 @@ function startLanguageClient(context: vscode.ExtensionContext): LanguageClient {
 }
 
 async function generateJsonService(context: vscode.ExtensionContext) {
-    let title : string = 'Software Diversity Card';
+    let title : string = 'Software Diversity Card JSON';
+    let previewPanelTitle = 'liveJSONPreviewer'
     previewPanel = vscode.window.createWebviewPanel(
         // Webview id
-        'liveJSONPreviewer',
+        previewPanelTitle,
         // Webview title
         title,
         // This will open the second column for preview inside editor
@@ -84,39 +85,70 @@ async function generateJsonService(context: vscode.ExtensionContext) {
             localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'assets'))]
         }
     )
-    setPreviewActiveContext(true);
+    setPreviewActiveContext(true, previewPanelTitle);
     const generator =  new JSONDocumentGenerator();
     const text = vscode.window.activeTextEditor?.document.getText();
     if (text) {
         const returner = generator.generate(text);
-        updateJsonPreview(returner);
+        updatePreview(returner);
         console.log(returner);
     }
     previewPanel.onDidDispose(() => {
-        setPreviewActiveContext(false);
+        setPreviewActiveContext(false, previewPanelTitle);
     })
 }
 
-function updateJsonPreview(json : string | void) {
-    if (previewPanel && json) {
-        previewPanel.webview.html = json;
-    }
-}
-
-function setPreviewActiveContext(value: boolean) {
-    vscode.commands.executeCommand('setContext', 'liveJSONPreviewer', value);
-}
-
-function saveJsonDocument(context: vscode.ExtensionContext) {
-    const text = previewPanel.webview.html;
-    const searchRegExp = /\s/g;
-    const replaceWith = '-';
-    const title = previewPanel.title.toLowerCase().replace(searchRegExp, replaceWith);
+async function generateMdService(context: vscode.ExtensionContext) {
+    let title : string = 'Software Diversity Card MD';
+    let previewPanelTitle = 'liveMDPreviewer';
+    previewPanel = vscode.window.createWebviewPanel(
+        // Webview id
+        previewPanelTitle,
+        // Webview title
+        title,
+        // This will open the second column for preview inside editor
+        2,
+        {
+            // Enable scripts in the webview
+            enableScripts: false,
+            retainContextWhenHidden: false,
+            // And restrict the webview to only loading content from our extension's 'assets' directory.
+            localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'assets'))]
+        }
+    )
+    setPreviewActiveContext(true, previewPanelTitle);
+    const generator =  new MDDocumentGenerator();
+    const text = vscode.window.activeTextEditor?.document.getText();
     if (text) {
-        vscode.workspace.workspaceFolders?.forEach(workspace => {
-            const filePath = workspace.uri.fsPath + "/" + title + ".json";
-            fs.writeFileSync(filePath, text, 'utf8');
-		    vscode.window.showInformationMessage('Congrats! Your file, ' + title + '.json, has been saved in your workspace root folder.');
-        });
+        const returner = generator.generate(text);
+        updatePreview(returner);
+        console.log(returner);
+    }
+    previewPanel.onDidDispose(() => {
+        setPreviewActiveContext(false, previewPanelTitle);
+    })
+}
+
+function updatePreview(content : string | void) {
+    if (previewPanel && content) {
+        previewPanel.webview.html = content;
     }
 }
+
+function setPreviewActiveContext(value: boolean, panelTitle: string) {
+    vscode.commands.executeCommand('setContext', panelTitle, value);
+}
+
+// function saveJsonDocument(context: vscode.ExtensionContext) {
+//     const text = previewPanel.webview.html;
+//     const searchRegExp = /\s/g;
+//     const replaceWith = '-';
+//     const title = previewPanel.title.toLowerCase().replace(searchRegExp, replaceWith);
+//     if (text) {
+//         vscode.workspace.workspaceFolders?.forEach(workspace => {
+//             const filePath = workspace.uri.fsPath + "/" + title + ".json";
+//             fs.writeFileSync(filePath, text, 'utf8');
+// 		    vscode.window.showInformationMessage('Congrats! Your file, ' + title + '.json, has been saved in your workspace root folder.');
+//         });
+//     }
+// }

@@ -90,13 +90,13 @@
                 }
             },
             {
-                "command": "swdc-dsl.saveJsonDocument",
-                "title": "Save JSON",
-                "shortTitle": "Save JSON",
+                "command": "swdc-dsl.generateMd",
+                "title": "Generate MD Documentation",
+                "shortTitle": "Generate MD",
                 "category": "SoftwareDiversityCard",
                 "icon": {
-                    "light": "icons/download.png",
-                    "dark": "icons/download.png"
+                    "light": "icons/markdown.png",
+                    "dark": "icons/markdown.png"
                 }
             }
         ],
@@ -108,8 +108,8 @@
                     "group": "navigation"
                 },
                 {
-                    "when": "liveJSONPreviewer",
-                    "command": "swdc-dsl.saveJsonDocument",
+                    "when": "resourceLangId == swdc-dsl",
+                    "command": "swdc-dsl.generateMd",
                     "group": "navigation"
                 }
             ]
