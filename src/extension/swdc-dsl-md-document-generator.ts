@@ -30,27 +30,31 @@ export class MDDocumentGenerator implements Generator {
 
     generateMDfromJSON(sdc: any) : string {
         const participantLabels = ['age', 'ethnicity', 'gender', 'socioEconomicStatus', 'skillLevel', 'tenure'];
-        const teamLabels = ['type', 'startingAgeRange', 'endingAgeRange', 'ethnicities', 'genders', 'socioEconomicStati', 'skillLevels', 'averageTenure'];
-        const governanceLabels = ['projectType', 'governanceProcesses'];
+        const entityLabels = ['type', 'startingAgeRange', 'endingAgeRange', 'ethnicities', 'genders', 'socioEconomicStati', 'skillLevels', 'averageTenure'];
+        const teamLabels = entityLabels.concat(['startDate', 'endDate', 'teamSize', 'iterations'])
+            .concat(['salary', 'labourRights']) // LabourForce
+            .concat(['type', 'testingGuidelines', 'appMaturity']) // TesterTeam
+            .concat(['type', 'reportingMethod', 'reportingPlatform']); // PublicReporterTeam
+        const governanceLabels = ['projectType', 'governanceProcesses', 'funders', 'shareholders'];
         const socialContextLabels = ['description','culturalTraits', 'country', 'spokenLanguages', 'relatedTeams'];
         const useCaseLabels = ['description', 'targetCommunities'];
         const adaptationLabels = ['description', 'release', 'useCases', 'targetCommunities', 'relatedTeams'];
 
         let result = new Array();
         
-        result.push('# Software Diversity Card');
-        result.push('## Entities and Individuals');
+        result.push(this.header('# Software Diversity Card'));
+        result.push(this.header('## Entities and Individuals'));
         result.push(this.generateSubsection('### Participants', sdc.participants, participantLabels)); // TODO: spoken languages
         result.push(this.generateSubsection('### Teams', sdc.teams, teamLabels)); // TODO: team participants
         result.push(this.generateSubsection('### Target Communities', sdc.targetCommunities, teamLabels.concat('description')));
         result.push(this.generateSubsection('### Organizations', sdc.organizations, teamLabels));
-        result.push('## Contexts');
+        result.push(this.header('## Contexts'));
         result.push(this.generateSubsection('### Governance', sdc.governances, governanceLabels));
         result.push(this.generateSubsection('### Social Contexts', sdc.socialContexts, socialContextLabels));
         result.push(this.generateSubsection('### Use Cases', sdc.useCases, useCaseLabels));
         result.push(this.generateSubsection('### Adaptations', sdc.adaptations, adaptationLabels));
 
-        return result.join('<br><br>');
+        return result.filter(function(element) { return element !== undefined; }).join('');
     }
 
     generateSubsection(title: string, elements: any[], labels: string[]) : string | undefined {
@@ -68,11 +72,19 @@ export class MDDocumentGenerator implements Generator {
     // Auxiliary formatting methods
 
     item(name: string, elements: string[]) : string {
-        return name.concat('<br>', elements.join('<br>'), '<br><br>');
+        let boldName = '**' + name + '**';
+        return boldName.concat('<br>', elements.filter(function(element) { return element !== ''; }).join(''), '<br>');
     }
 
-    itemize(label: string, value: string) : string {
-        return '- '.concat(label, ': ', value);
+    itemize(label: string, value: string[] | string) : string {
+        if (value) {
+            let formattedValue;
+            if (Array.isArray(value)) formattedValue = '- '.concat(label, ': ', (value as string[]).join(', '));
+            else formattedValue = '- '.concat(label, ': ', value as string);
+            return formattedValue.concat('<br>');
+        }
+        else
+            return '';
     }
 
     header(str: string) : string {
