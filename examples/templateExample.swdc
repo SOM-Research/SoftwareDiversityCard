@@ -1,0 +1,231 @@
+/******************************************************************************
+ *                      Software Diversity Card Scaffold                      *
+ ******************************************************************************
+ * This file provides the initial scaffold for creating a Software Diversity  *
+ * Card. Follow the steps below to set up your card properly.                 *
+ ******************************************************************************
+ * 1️⃣ Master Information:                                                    *
+ *    - Define the primary settings, including the declaration of countries   *
+ *      and languages relevant to your project.                               *
+ *    - This scaffold includes examples for each type of team you can define. *
+ ******************************************************************************
+ * 2️⃣ Governance & Deployment:                                               *
+ *    - Specify the governance model for your software project.               *
+ *    - Define the deployment context, target populations and adaptations     *
+ ******************************************************************************
+ * 3️⃣ Participants:                                                           *
+ *    - Declare the teams involved in your project.                           *
+ *    - Declare your dev team, testers, reporters, or translators             *
+ ******************************************************************************
+ * ✅ Final Steps:                                                            *
+ *    - Ensure your file has no validation errors.                            *
+ *    - Generate the JSON and Markdown representations for easy sharing.      *
+ *    - Embed the Markdown output in repositories or publish it online.       *
+ ******************************************************************************
+ * 🔗 Need Help?                                                              *
+ *    - If you have any questions, open an issue in our public repository:    *
+ *      👉 https://github.com/SOM-Research/SoftwareDiversityCard              *
+ ******************************************************************************/
+
+/******************************************************************************
+ *                      Master information                                    *
+ ******************************************************************************/
+country Spain
+    shortName: 'Spain'
+    fullName: 'Spain'
+    alpha2Code: 'ES'
+
+language Catalan
+    language: 'Catalana'
+    code: 'es'
+
+
+/******************************************************************************
+ *                      Governance                                            *
+ ******************************************************************************/
+organization DecidimBoard
+    personalCharacteristics:
+        startingAgeRange: 23
+        endingAgeRange: 46
+        ethnicities: ['Asian', 'White']
+        genders: ['male', 'female']
+    culturalCharacteristics:
+        socioEconomicStati: [upperClass, upperMiddleClass]
+        skillLevels: [advanced]
+        averageTenure: 368966
+
+/*governance Decidim 
+ governanceProcesses: ["Board of Directors"]
+ funders: DecidimBoard
+ shareholders: [DecidimBoard]
+*/
+
+/******************************************************************************
+ *                      Deployment context                                    *
+ ******************************************************************************/
+
+/****** Target Comunities *******/
+targetCommunity nonDigitalSkilled
+    description: 'Una target community de gente mayor'
+    personalCharacteristics:
+        startingAgeRange: 60
+        endingAgeRange: 100
+        ethnicities: ['White']
+        genders: ['male']
+    culturalCharacteristics:
+        socioEconomicStati: [lowerClass, lowerMiddleClass]
+        skillLevels: [beginner]
+        averageTenure: 70
+
+
+socialContext BarcelonaCouncil
+ description: "Barcelona council"
+ country: Spain
+ spokenLanguages: [Catalan]
+
+/****** Use Cases *******  */
+useCase nonSkilledAccesibityCitizen
+    description: 'Acces for non-skilled digital citizen'
+    targetCommunities: [nonDigitalSkilled]
+
+
+
+/*********** Adpatations *********/
+adaptation DigitalDivide 
+ description: "Adaptations for digital divice"
+ useCases: [nonSkilledAccesibityCitizen]
+ targetCommunities: [nonDigitalSkilled] 
+
+/******************************************************************************
+ *                      Participants                                          *
+ ******************************************************************************/
+participant Developer1
+    personalCharacteristics:
+        age: 46
+        ethnicity: 'Asian'
+        gender: 'female'
+        country: USA
+    culturalCharacteristics:
+        spokenLanguages: [(English,c1)]
+        skillLevel: proficient
+    participantId: 'semo'
+
+participant Developer2
+    personalCharacteristics:
+        age: 45
+        ethnicity: 'Black'
+        gender: 'male'
+    culturalCharacteristics:
+        spokenLanguages: [(English,b2)]
+        skillLevel: advanced
+    participantId: 'enca'
+
+participant Tester1
+    personalCharacteristics:
+        age: 45
+        ethnicity: 'Black'
+        gender: 'male'
+    culturalCharacteristics:
+        spokenLanguages: [(English,b2)]
+        skillLevel: advanced
+    participantId: 'enca'
+
+participant Tester2
+    personalCharacteristics:
+        age: 45
+        ethnicity: 'Black'
+        gender: 'male'
+    culturalCharacteristics:
+        spokenLanguages: [(English,b2)]
+        skillLevel: advanced
+    participantId: 'enca'
+
+/******* End-user testers *********/
+testerTeam usabilityTesters
+    personalCharacteristics:
+        startingAgeRange: 34
+        endingAgeRange: 46
+        ethnicities: ['Asian']
+        genders: ['male']
+    culturalCharacteristics:
+        socioEconomicStati: [upperClass]
+        skillLevels: [competent]
+        averageTenure: 4.3
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [( 
+         Tester1,developer,11-08-2024,08-29-2025),
+        (Tester2,developer,11-08-2024,08-29-2025)
+    ]
+    testingGuidelines: "" // need to be optional
+    appMaturity: "" // need to be optional
+
+/***** User public reporters *****/
+publicReporterTeam userReporting
+    personalCharacteristics:
+        startingAgeRange: 20
+        endingAgeRange: 30
+        ethnicities: ['white']
+        genders: ['male']
+        culturalCharacteristics:
+            socioEconomicStati: [middleClass]
+            skillLevels: [beginner]
+            averageTenure: 4.2
+        startDate: 11-08-2024
+        endDate: 08-29-2025
+        teamSize: 200
+        iterations: 2
+        reportingMethod: "public interviews"
+        reportingPlatform: "public council"
+
+/********* Translators ***********/
+nonCodingContributorTeam Translators
+       personalCharacteristics:
+        startingAgeRange: 20
+        endingAgeRange: 30
+        ethnicities: ['white']
+        genders: ['male']
+        culturalCharacteristics:
+            socioEconomicStati: [middleClass]
+            skillLevels: [beginner]
+            averageTenure: 4.2
+        startDate: 11-08-2024
+        endDate: 08-29-2025
+        teamSize: 50
+
+/******* Issue reporters *********/
+nonCodingContributorTeam issueReporters
+       personalCharacteristics:
+        startingAgeRange: 20
+        endingAgeRange: 30
+        ethnicities: ['white']
+        genders: ['male']
+        culturalCharacteristics:
+            socioEconomicStati: [middleClass]
+            skillLevels: [beginner]
+            averageTenure: 4.2
+        startDate: 11-08-2024
+        endDate: 08-29-2025
+        teamSize: 50
+
+/******** Development Team *********/
+developmentTeam DevelopmentTeam
+    personalCharacteristics:
+        startingAgeRange: 34
+        endingAgeRange: 46
+        ethnicities: ['Asian']
+        genders: ['male']
+    culturalCharacteristics:
+        socioEconomicStati: [upperClass]
+        skillLevels: [competent]
+        averageTenure: 4.3
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [(
+        Developer1,developer,11-08-2024,08-29-2025),
+        (Developer2,developer,11-08-2024,08-29-2025)]
+
