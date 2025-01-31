@@ -23,7 +23,7 @@ export class JSONDocumentGenerator implements Generator {
         if (isModel(astNode)) {
             const json_generator = new JSONGenerator();
             const sdc_json = json_generator.model2Json(astNode);
-            return JSON.stringify(sdc_json);
+            return JSON.stringify(sdc_json, null, 2);
         } else
             return undefined;
     }

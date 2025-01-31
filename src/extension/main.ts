@@ -110,13 +110,26 @@ async function generateJsonService(context: vscode.ExtensionContext) {
     const generator =  new JSONDocumentGenerator();
     const text = vscode.window.activeTextEditor?.document.getText();
     if (text) {
-        const returner = generator.generate(text);
-        updatePreview(returner);
-        console.log(returner);
+        // HTML content with JSON styling
+        previewPanel.webview.html = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>JSON Preview</title>
+            <style>
+                body { font-family: monospace; padding: 20px; background: #282c34; color: #abb2bf; }
+                pre { white-space: pre-wrap; word-wrap: break-word; }
+            </style>
+        </head>
+        <body>
+            <pre>${generator.generate(text)}</pre>
+        </body>
+        </html>
+        `;
     }
-    previewPanel.onDidDispose(() => {
-        setPreviewActiveContext(false, previewPanelTitle);
-    })
+
 }
 
 async function generateMdService(context: vscode.ExtensionContext) {
