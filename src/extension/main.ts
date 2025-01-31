@@ -1,6 +1,7 @@
 import type { LanguageClientOptions, ServerOptions} from 'vscode-languageclient/node.js';
 import * as vscode from 'vscode';
 import * as path from 'node:path';
+import * as fs from 'fs';
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
 import { JSONDocumentGenerator } from './swdc-dsl-json-document-generator.js';
 import { MDDocumentGenerator } from './swdc-dsl-md-document-generator.js';
@@ -18,6 +19,26 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(vscode.commands.registerCommand('swdc-dsl.generateMd', async () => {
         await generateMdService(context);
      }));
+         // Listen for new .sdc files
+     const disposable = vscode.workspace.onDidCreateFiles(event => {
+        for (const file of event.files) {
+            if (file.fsPath.endsWith('.swdc')) {
+                vscode.workspace.openTextDocument(file).then(doc => {
+                    const edit = new vscode.WorkspaceEdit();
+                    let scaffoldText = ``;
+                    try {
+                        scaffoldText = fs.readFileSync(context.asAbsolutePath('startTemplate.sdwc'), 'utf-8');
+                    } catch(error) {
+                        vscode.window.showErrorMessage(`Error loading template`);
+                    }
+                    edit.insert(file, new vscode.Position(0, 0), scaffoldText);
+                    vscode.workspace.applyEdit(edit);
+                });
+            }
+        }
+    });
+
+    context.subscriptions.push(disposable);
 }
 
 // This function is called when the extension is deactivated.
