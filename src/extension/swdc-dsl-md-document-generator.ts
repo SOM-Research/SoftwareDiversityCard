@@ -37,16 +37,27 @@ export class MDDocumentGenerator implements Generator {
         let result = new Array();
         
         result.push(this.header('# Software Diversity Card'));
+        result.push(this.header('poner algo de texto introductorio'));
         result.push(this.header('## Entities and Individuals'));
+        result.push(this.header('poner algo de texto introductorio de esta subsección'));
         result.push(this.generateSubsection('### Participants', sdc.participants, EnumAdditionalAssociations.SpokenLanguages));
         result.push(this.generateSubsection('### Teams', sdc.teams, EnumAdditionalAssociations.TeamParticipants));
         result.push(this.generateSubsection('### Target Communities', sdc.targetCommunities));
         result.push(this.generateSubsection('### Organizations', sdc.organizations));
         result.push(this.header('## Contexts'));
+        result.push(this.header('poner algo de texto introductorio de esta otra subsección'));
         result.push(this.generateSubsection('### Governance', sdc.governances));
         result.push(this.generateSubsection('### Social Contexts', sdc.socialContexts));
         result.push(this.generateSubsection('### Use Cases', sdc.useCases));
         result.push(this.generateSubsection('### Adaptations', sdc.adaptations));
+        result.push('<br><br>');
+        result.push('**_This information was generated on '
+            + new Date().toLocaleString(undefined, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+            + ' using the [Software Diversity Card generator](https://github.com/SOM-Research/SoftwareDiversityCard)._**');
 
         return result.filter(function(element) { return element !== undefined; }).join('');
     }
