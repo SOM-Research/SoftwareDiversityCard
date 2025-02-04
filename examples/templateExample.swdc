@@ -27,32 +27,26 @@
  *      👉 https://github.com/SOM-Research/SoftwareDiversityCard              *
  ******************************************************************************/
 
-/******************************************************************************
- *                      Master information                                    *
- ******************************************************************************/
-country Spain
-    shortName: 'Spain'
-    fullName: 'Spain'
-    alpha2Code: 'ES'
-
-language Catalan
-    language: 'Catalana'
-    code: 'es'
 
 
 /******************************************************************************
  *                      Governance                                            *
  ******************************************************************************/
 organization DecidimBoard
-    personalCharacteristics:
-        startingAgeRange: 23
-        endingAgeRange: 46
-        ethnicities: ['Asian', 'White']
-        genders: ['male', 'female']
-    culturalCharacteristics:
-        socioEconomicStati: [upperClass, upperMiddleClass]
-        skillLevels: [advanced]
-        averageTenure: 368966
+    ageRange: (23,46)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['Asian', 'White']
+    genders: ['male', 'female']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [primary, lowerSecondary]
+    spokenLanguages: [(English,b1)]
+    socioEconomicStati: [upperClass, upperMiddleClass]
+    skillLevels: [advanced]
+    averageTenure: 36
 
 /*governance Decidim 
  governanceProcesses: ["Board of Directors"]
@@ -67,90 +61,126 @@ organization DecidimBoard
 /****** Target Comunities *******/
 targetCommunity nonDigitalSkilled
     description: 'Una target community de gente mayor'
-    personalCharacteristics:
-        startingAgeRange: 60
-        endingAgeRange: 100
-        ethnicities: ['White']
-        genders: ['male']
-    culturalCharacteristics:
-        socioEconomicStati: [lowerClass, lowerMiddleClass]
-        skillLevels: [beginner]
-        averageTenure: 70
+    ageRange: (60,100)
+    locations: ['Spain']
+    workplaceType: hybrid
+    ethnicities: ['White']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [primary]
+    spokenLanguages: [(Spanish-Castilian,c2)]
+    socioEconomicStati: [lowerClass, lowerMiddleClass]
+    skillLevels: [beginner]
+    averageTenure: 70
 
 
 socialContext BarcelonaCouncil
- description: "Barcelona council"
- country: Spain
- spokenLanguages: [Catalan]
+    description: "Barcelona council"
+    country: Spain
+    spokenLanguages: [Catalan-Valencian]
 
 /****** Use Cases *******  */
 useCase nonSkilledAccesibityCitizen
     description: 'Acces for non-skilled digital citizen'
     targetCommunities: [nonDigitalSkilled]
 
-
-
 /*********** Adpatations *********/
 adaptation DigitalDivide 
- description: "Adaptations for digital divice"
- useCases: [nonSkilledAccesibityCitizen]
- targetCommunities: [nonDigitalSkilled] 
+    description: "Adaptations for digital divice"
+    useCases: [nonSkilledAccesibityCitizen]
+    targetCommunities: [nonDigitalSkilled] 
 
 /******************************************************************************
  *                      Participants                                          *
  ******************************************************************************/
 participant Developer1
-    personalCharacteristics:
-        age: 46
-        ethnicity: 'Asian'
-        gender: 'female'
-        country: USA
-    culturalCharacteristics:
-        spokenLanguages: [(English,c1)]
-        skillLevel: proficient
+    age: 46
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Asian'
+    gender: 'female'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,c1)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: proficient
+    tenure: 4
     participantId: 'semo'
 
 participant Developer2
-    personalCharacteristics:
-        age: 45
-        ethnicity: 'Black'
-        gender: 'male'
-    culturalCharacteristics:
-        spokenLanguages: [(English,b2)]
-        skillLevel: advanced
+    age: 45
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Black'
+    gender: 'male'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,b2)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: advanced
+    tenure: 5
     participantId: 'enca'
 
 participant Tester1
-    personalCharacteristics:
-        age: 45
-        ethnicity: 'Black'
-        gender: 'male'
-    culturalCharacteristics:
-        spokenLanguages: [(English,b2)]
-        skillLevel: advanced
+    age: 45
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Black'
+    gender: 'male'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,b2)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: advanced
+    tenure: 5
     participantId: 'enca'
 
 participant Tester2
-    personalCharacteristics:
-        age: 45
-        ethnicity: 'Black'
-        gender: 'male'
-    culturalCharacteristics:
-        spokenLanguages: [(English,b2)]
-        skillLevel: advanced
+    age: 45
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Black'
+    gender: 'male'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,b2)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: advanced
+    tenure: 5
     participantId: 'enca'
 
 /******* End-user testers *********/
 testerTeam usabilityTesters
-    personalCharacteristics:
-        startingAgeRange: 34
-        endingAgeRange: 46
-        ethnicities: ['Asian']
-        genders: ['male']
-    culturalCharacteristics:
-        socioEconomicStati: [upperClass]
-        skillLevels: [competent]
-        averageTenure: 4.3
+    ageRange: (34,46)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['Asian']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [upperClass]
+    skillLevels: [competent]
+    averageTenure: 4.3
+    description: 'equipo de testeo de usabilidad'
     startDate: 11-08-2024
     endDate: 08-29-2025
     teamSize: 4
@@ -159,68 +189,93 @@ testerTeam usabilityTesters
          Tester1,developer,11-08-2024,08-29-2025),
         (Tester2,developer,11-08-2024,08-29-2025)
     ]
-    testingGuidelines: "" // need to be optional
-    appMaturity: "" // need to be optional
+    testersBackground: ''
+    testingGuidelines: ''
+    appMaturity: ''
 
 /***** User public reporters *****/
 publicReporterTeam userReporting
-    personalCharacteristics:
-        startingAgeRange: 20
-        endingAgeRange: 30
-        ethnicities: ['white']
-        genders: ['male']
-        culturalCharacteristics:
-            socioEconomicStati: [middleClass]
-            skillLevels: [beginner]
-            averageTenure: 4.2
-        startDate: 11-08-2024
-        endDate: 08-29-2025
-        teamSize: 200
-        iterations: 2
-        reportingMethod: "public interviews"
-        reportingPlatform: "public council"
+    ageRange: (20,30)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['white']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [middleClass]
+    skillLevels: [beginner]
+    averageTenure: 4.2
+    description: 'public reporting team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 200
+    iterations: 2
+    reportingMethod: "public interviews"
+    reportingPlatform: "public council"
 
 /********* Translators ***********/
 nonCodingContributorTeam Translators
-       personalCharacteristics:
-        startingAgeRange: 20
-        endingAgeRange: 30
-        ethnicities: ['white']
-        genders: ['male']
-        culturalCharacteristics:
-            socioEconomicStati: [middleClass]
-            skillLevels: [beginner]
-            averageTenure: 4.2
-        startDate: 11-08-2024
-        endDate: 08-29-2025
-        teamSize: 50
+    ageRange: (20,30)
+    locations: ['Barcelona', 'Madrid', 'Granada']
+    workplaceType: remote
+    ethnicities: ['white']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [middleClass]
+    skillLevels: [beginner]
+    averageTenure: 4.2
+    description: 'remote translators team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 50
 
 /******* Issue reporters *********/
 nonCodingContributorTeam issueReporters
-       personalCharacteristics:
-        startingAgeRange: 20
-        endingAgeRange: 30
-        ethnicities: ['white']
-        genders: ['male']
-        culturalCharacteristics:
-            socioEconomicStati: [middleClass]
-            skillLevels: [beginner]
-            averageTenure: 4.2
-        startDate: 11-08-2024
-        endDate: 08-29-2025
-        teamSize: 50
+    ageRange: (20,30)
+    locations: ['']
+    workplaceType: remote
+    ethnicities: ['white']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [middleClass]
+    skillLevels: [beginner]
+    averageTenure: 4.2
+    description: 'external issue reporting team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 50
 
 /******** Development Team *********/
 developmentTeam DevelopmentTeam
-    personalCharacteristics:
-        startingAgeRange: 34
-        endingAgeRange: 46
-        ethnicities: ['Asian']
-        genders: ['male']
-    culturalCharacteristics:
-        socioEconomicStati: [upperClass]
-        skillLevels: [competent]
-        averageTenure: 4.3
+    ageRange: (34,46)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['Asian']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [upperClass]
+    skillLevels: [competent]
+    averageTenure: 4.3
+    description: 'development team'
     startDate: 11-08-2024
     endDate: 08-29-2025
     teamSize: 4

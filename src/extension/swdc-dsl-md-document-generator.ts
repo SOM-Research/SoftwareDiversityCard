@@ -7,7 +7,8 @@ import { JSONGenerator } from './swdc-json-generator.js';
 enum EnumAdditionalAssociations {
     None,
     SpokenLanguages,
-    TeamParticipants
+    TeamParticipants,
+    Both
 };
 
 export interface Generator {
@@ -41,15 +42,18 @@ export class MDDocumentGenerator implements Generator {
         result.push(this.header('## Entities and Individuals'));
         result.push(this.header('poner algo de texto introductorio de esta subsección'));
         result.push(this.generateSubsection('### Participants', sdc.participants, EnumAdditionalAssociations.SpokenLanguages));
-        result.push(this.generateSubsection('### Teams', sdc.teams, EnumAdditionalAssociations.TeamParticipants));
-        result.push(this.generateSubsection('### Target Communities', sdc.targetCommunities));
-        result.push(this.generateSubsection('### Organizations', sdc.organizations));
+        result.push(this.generateSubsection('### Teams', sdc.teams, EnumAdditionalAssociations.Both));
         result.push(this.header('## Contexts'));
         result.push(this.header('poner algo de texto introductorio de esta otra subsección'));
-        result.push(this.generateSubsection('### Governance', sdc.governances));
+        result.push(this.generateSubsection('### Target Communities', sdc.targetCommunities));
         result.push(this.generateSubsection('### Social Contexts', sdc.socialContexts));
         result.push(this.generateSubsection('### Use Cases', sdc.useCases));
         result.push(this.generateSubsection('### Adaptations', sdc.adaptations));
+        result.push(this.header('## Governance'));
+        result.push(this.header('poner algo de texto introductorio de esta otra subsección'));
+        result.push(this.generateSubsection('### Organizations', sdc.organizations));
+        result.push(this.generateSubsection('### Bodies', sdc.bodies));
+        result.push(this.generateSubsection('### Governance', sdc.governances));
         result.push('<br><br>');
         result.push('**_This information was generated on '
             + new Date().toLocaleString(undefined, {
@@ -68,12 +72,12 @@ export class MDDocumentGenerator implements Generator {
             for (var elem of elements) {
                 var properties = Object.getOwnPropertyNames(elem).filter(p => p !== 'id');
                 var spokenLanguages = '', teamParticipants = '';
-                if (additionalAssocs == EnumAdditionalAssociations.SpokenLanguages) {
+                if (additionalAssocs == EnumAdditionalAssociations.SpokenLanguages || additionalAssocs == EnumAdditionalAssociations.Both) {
                     properties = properties.filter(p => p !== 'spokenLanguages');
                     spokenLanguages = this.generateSpokenLanguages(elem['spokenLanguages']);
                     //parsedProperties.push(spokenLanguages);
                 }
-                else if (additionalAssocs == EnumAdditionalAssociations.TeamParticipants) {
+                if (additionalAssocs == EnumAdditionalAssociations.TeamParticipants || additionalAssocs == EnumAdditionalAssociations.Both) {
                     properties = properties.filter(p => p !== 'participants');
                     teamParticipants = this.generateTeamParticipants(elem['participants']);
                     //parsedProperties.push(teamParticipants);

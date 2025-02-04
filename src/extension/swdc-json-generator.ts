@@ -1,4 +1,4 @@
-import { Model, Country, Language, Team, NoTeamEntity, isTargetCommunity, isOrganization, Governance, isGovernanceIndividual, GovernanceIndividual, isGovernanceOrganization, GovernanceOrganization, SocialContext, TargetCommunity, UseCase, Organization, Adaptation } from '../language/generated/ast.js';
+import { Model, Team, NoTeamEntity, isTargetCommunity, isOrganization, Governance, SocialContext, TargetCommunity, UseCase, Organization, Adaptation, Body, BodyIndividual, BodyOrganization, isBodyIndividual, isBodyOrganization } from '../language/generated/ast.js';
 
 export interface IJSONGenerator {
     model2Json(model : Model) : any | undefined;
@@ -13,13 +13,14 @@ export class JSONGenerator implements IJSONGenerator {
     
         const softwareDiversityCard = {
             // master info
-            countries: this.generateCountries(model.countries),
-            languages: this.generateLanguages(model.languages),
+            //countries: this.generateCountries(model.countries),
+            //languages: this.generateLanguages(model.languages),
             // context and governance
-            targetCommunities: this.generateNoTeamEntities(model.languages, targetCommunities),
-            organizations: this.generateNoTeamEntities(model.languages, organizations),
+            targetCommunities: this.generateNoTeamEntities(targetCommunities),
+            organizations: this.generateNoTeamEntities(organizations),
+            bodies: this.generateBodies(model.bodies),
             governances: this.generateGovernances(model.governances),
-            socialContexts: this.generateSocialContexts(model.countries, model.languages, model.socialContexts),
+            socialContexts: this.generateSocialContexts(model.socialContexts),
             useCases: this.generateUseCases(model.useCases),
             adaptations: this.generateAdaptations(model.adaptations),
             // teams and participants
@@ -30,40 +31,40 @@ export class JSONGenerator implements IJSONGenerator {
         return softwareDiversityCard;
     }
     
-    generateCountries(countries: Country[]) : any[] | undefined {
-        let result = new Array();
-        countries.forEach(i => {
-            let item = {
-                id: i.name,
-                shortName: i.shortName,
-                fullName: i.fullName,
-                alpha2Code: i.alpha2Code
-            };
-            result.push(item)
-        });
-        return result;
-    }
+    // generateCountries(countries: Country[]) : any[] | undefined {
+    //     let result = new Array();
+    //     countries.forEach(i => {
+    //         let item = {
+    //             id: i.name,
+    //             shortName: i.shortName,
+    //             fullName: i.fullName,
+    //             alpha2Code: i.alpha2Code
+    //         };
+    //         result.push(item)
+    //     });
+    //     return result;
+    // }
     
-    generateLanguages(langs: Language[]) : any[] | undefined {
-        let result = new Array();
-        langs.forEach(i => {
-            let item = {
-                id: i.name,
-                language: i.language,
-                code: i.code
-            };
-            result.push(item);
-        });
-        return result;
-    }
+    // generateLanguages(langs: Language[]) : any[] | undefined {
+    //     let result = new Array();
+    //     langs.forEach(i => {
+    //         let item = {
+    //             id: i.name,
+    //             language: i.language,
+    //             code: i.code
+    //         };
+    //         result.push(item);
+    //     });
+    //     return result;
+    // }
     
-    generateNoTeamEntities(languages: Language[], ntes: NoTeamEntity[]) : any[] | undefined {
+    generateNoTeamEntities(ntes: NoTeamEntity[]) : any[] | undefined {
         let result = new Array();
         ntes.forEach(nte => {
             let spokenLanguages = new Array();
-            nte.culturalTeamCharacteristics.spokenLanguages.forEach(sl => {
+            nte.spokenLanguages.forEach(sl => {
                 let spokenLanguage = {
-                    language: languages.findLast(l => l.name == sl.language.$refText)?.code,
+                    language: sl.language, // languages.findLast(l => l.name == sl.language.$refText)?.code,
                     proficiency: sl.proficiency    
                 };
                 spokenLanguages.push(spokenLanguage);
@@ -71,14 +72,14 @@ export class JSONGenerator implements IJSONGenerator {
             let item = {
                 id: nte.name,
                 description: isTargetCommunity(nte) ? nte.description : null, // it is not elegant, but I do not know any other solution
-                startingAgeRange: nte.personalTeamCharacteristics.startingAgeRange,
-                endingAgeRange: nte.personalTeamCharacteristics.endingAgeRange,
-                ethnicities: nte.personalTeamCharacteristics.ethnicities,
-                genders: nte.personalTeamCharacteristics.genders,
+                startingAgeRange: nte.startingAgeRange,
+                endingAgeRange: nte.endingAgeRange,
+                ethnicities: nte.ethnicities,
+                genders: nte.genders,
                 spokenLanguages: spokenLanguages,
-                socioEconomicStati: nte.culturalTeamCharacteristics.socioEconomicStati,
-                skillLevels: nte.culturalTeamCharacteristics.skillLevels,
-                averageTenure: nte.culturalTeamCharacteristics.averageTenure
+                socioEconomicStati: nte.socioEconomicStati,
+                skillLevels: nte.skillLevels,
+                averageTenure: nte.averageTenure
             };
             result.push(item)
         });
@@ -90,26 +91,38 @@ export class JSONGenerator implements IJSONGenerator {
         govs.forEach(i => {
             let item = {
                 id: i.name,
-                governanceProcesses: i.governanceProcesses,
-                funders: i.funders.filter(f => isGovernanceIndividual(f)).map(f => (f as GovernanceIndividual).governanceIndividual.$refText, 'participant').concat(
-                    i.funders.filter(f => isGovernanceOrganization(f)).map(f => (f as GovernanceOrganization).governanceOrganization.$refText, 'organization')),
-                shareholders: i.shareholders.filter(f => isGovernanceIndividual(f)).map(f => (f as GovernanceIndividual).governanceIndividual.$refText, 'participant').concat(
-                    i.shareholders.filter(f => isGovernanceOrganization(f)).map(f => (f as GovernanceOrganization).governanceOrganization.$refText, 'organization'))
+                projectType: i.projectType,
+                governanceProcesses: i.governanceProcesses
+            };
+            result.push(item)
+        });
+        return result;
+    }
+
+    generateBodies(bodies: Body[]) : any[] | undefined {
+        let result = new Array();
+        bodies.forEach(i => {
+            let item = {
+                id: i.name,
+                description: i.description,
+                type: i.bodyType,
+                members: i.members.filter(f => isBodyIndividual(f)).map(f => (f as BodyIndividual).bodyIndividual.$refText, 'individual').concat(
+                    i.members.filter(f => isBodyOrganization(f)).map(f => (f as BodyOrganization).bodyOrganization.$refText, 'organization'))
             };
             result.push(item)
         });
         return result;
     }
     
-    generateSocialContexts(countries: Country[], languages: Language[], contexts: SocialContext[]) : any[] | undefined {
+    generateSocialContexts(contexts: SocialContext[]) : any[] | undefined {
         let result = new Array();
         contexts.forEach(i => {
             let item = {
                 id: i.name,
                 description: i.description,
                 culturalTraits: i.culturalTraits,
-                country: countries.findLast(c => c.name == i.country?.$refText)?.alpha2Code,
-                spokenLanguages: i.spokenLanguages.map(sl => languages.findLast(l => l.name == sl.$refText)?.code),
+                country: i.country, // countries.findLast(c => c.name == i.country?.$refText)?.alpha2Code,
+                spokenLanguages: i.spokenLanguages, // i.spokenLanguages.map(sl => languages.findLast(l => l.name == sl.$refText)?.code),
                 relatedTeams: i.relatedTeams.map(rl => rl.$refText)
             };
             result.push(item)
@@ -150,23 +163,29 @@ export class JSONGenerator implements IJSONGenerator {
         let result = new Array();
         model.participants.forEach(i => {
             let spokenLanguages = new Array();
-            i.culturalCharacteristics.spokenLanguages.forEach(sl => {
+            i.spokenLanguages.forEach(sl => {
                 let spokenLanguage = {
-                    language: model.languages.findLast(l => l.name == sl.language.$refText)?.code,
+                    language: sl.language, // model.languages.findLast(l => l.name == sl.language.$refText)?.code,
                     proficiency: sl.proficiency    
                 };
                 spokenLanguages.push(spokenLanguage);
             });
             let item = {
                 id: i.name,
-                age: i.personalCharacteristics.age,
-                ethnicity: i.personalCharacteristics.ethnicity,
-                gender: i.personalCharacteristics.gender,
-                country: model.countries.findLast(c => c.name == i.personalCharacteristics.country?.$refText)?.alpha2Code,
+                age: i.age,
+                location: i.location,
+                workplaceType: i.workplaceType,
+                ethnicity: i.ethnicity,
+                gender: i.gender,
+                disabilities: i.disabilities,
+                sexualOrientation: i.sexualOrientation,
+                religion: i.religion,
+                country: i.country, // model.countries.findLast(c => c.name == i.personalCharacteristics.country?.$refText)?.alpha2Code,
                 spokenLanguages: spokenLanguages,
-                socioEconomicStatus: i.culturalCharacteristics.socioEconomicStatus,
-                skillLevel: i.culturalCharacteristics.skillLevel,
-                tenure: i.culturalCharacteristics.tenure
+                socioEconomicStatus: i.socioEconomicStatus,
+                skillLevel: i.skillLevel,
+                tenure: i.tenure,
+                participantId: i.participantId
             };
             result.push(item);
         });
@@ -176,6 +195,14 @@ export class JSONGenerator implements IJSONGenerator {
     generateTeams(teams: Team[]) : any[] | undefined {
         let result = new Array();
         teams.forEach(i => {
+            let spokenLanguages = new Array();
+            i.spokenLanguages.forEach(sl => {
+                let spokenLanguage = {
+                    language: sl.language, // model.languages.findLast(l => l.name == sl.language.$refText)?.code,
+                    proficiency: sl.proficiency    
+                };
+                spokenLanguages.push(spokenLanguage);
+            });
             let teamParticipants = new Array();
             i.teamParticipants.forEach(tp => {
                 let teamParticipant = {
@@ -190,17 +217,32 @@ export class JSONGenerator implements IJSONGenerator {
             let item = {
                 id: i.name,
                 type: i.$type,
-                startingAgeRange: i.personalTeamCharacteristics.startingAgeRange,
-                endingAgeRange: i.personalTeamCharacteristics.endingAgeRange,
-                ethnicities: i.personalTeamCharacteristics.ethnicities,
-                genders: i.personalTeamCharacteristics.genders,
-                socioEconomicStati: i.culturalTeamCharacteristics.socioEconomicStati,
-                skillLevels: i.culturalTeamCharacteristics.skillLevels,
-                averageTenure: i.culturalTeamCharacteristics.averageTenure,
+                description: i.description,
+                // Entity
+                startingAgeRange: i.startingAgeRange,
+                endingAgeRange: i.endingAgeRange,
+                locations: i.locations,
+                workplaceType: i.workplaceType,
+                ethnicities: i.ethnicities,
+                genders: i.genders,
+                disabilities: i.disabilities,
+                sexualOrientations: i.sexualOrientations,
+                religiousBeliefs: i.religiousBeliefs,
+                countries: i.countries,
+                educationalLevels: i.educationalLevels,
+                spokenLanguages: spokenLanguages,
+                socioEconomicStati: i.socioEconomicStati,
+                skillLevels: i.skillLevels,
+                averageTenure: i.averageTenure,
+                // Team attributes
                 startDate: i.startDate,
                 endDate: i.endDate,
                 teamSize: i.teamSize,
                 iterations: i.iterations,
+                // LabourForce
+                salary: i.salary,
+                labourRights: i.labourRights,
+                country: i.country,
                 participants: teamParticipants
             };
             result.push(item)

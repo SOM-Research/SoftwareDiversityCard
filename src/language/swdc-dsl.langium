@@ -1,17 +1,10 @@
 grammar SoftwareDiversityCard
 
-
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal STRING: /"[^"]*"|'[^']*'/;
-//terminal INT returns number: /[1-9][0-9]*/;
 terminal NUMBER returns number: /[0-9]+(\.[0-9])?/;
 Dash returns string: "-";
 DATE returns string: NUMBER+Dash+NUMBER+Dash+NUMBER;
-//terminal DATE returns Date: /(3[01]|[12][0-9]|0?[1-9])(\/|-)(1[0-2]|0?[1-9])\2([0-9]{2})?[0-9]{2}/;
-    // /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/; // ISO 8061
-
-//terminal ISO6391 returns string: /"[a-z]{2}"|'[a-z]{2}'/; // two-letter language codes defined in ISO 639-1
-//terminal ISO3166ALPHA2 returns string: /"[A-Z]{2}"|'[A-Z]{2}'/; // two-letter country codes defined in ISO 3166-1
 
 
 hidden terminal WS: /\s+/;
@@ -19,13 +12,9 @@ hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
 
 entry Model:
-    // MASTER INFO
-    (countries+=Country)*
-    (languages+=Language)*
     // CONTEXT AND GOVERNANCE
     (organizationsAndTargetCommunities+=NoTeamEntity)*
-    //(organizations+=Organization)*
-    //(targetCommunities+=TargetCommunity)*
+    (bodies+=Body)*
     (governances+=Governance)*
     (socialContexts+=SocialContext)*
     (useCases+=UseCase)*
@@ -41,37 +30,27 @@ StringArray:
         ((','stringElement+=STRING)*']')?
     ;
 
-//fragment DateRange:
-    //(startingDate+=DATE) (',' (endingDate+=DATE))?
-    //;
-
 
 // *****************************************************************
 // MASTER INFO
 // *****************************************************************
 
-Country:
-    'country' name=ID
-    ('shortName:' shortName=STRING)?
-    ('fullName:' fullName=STRING)?
-    ('alpha2Code:' alpha2Code=STRING)?//ISO3166ALPHA2)?
-    ;
-
-Language:
-    'language' name=ID
-    ('language:' language=STRING)?
-    ('code:' code=STRING)?//ISO6391)?
-    ;
-
 SpokenLanguage:
-    language=[Language:ID] ','
+    language=ISO6391 ','
     proficiency=LanguageLevelType
     ;
 
+BodyType returns string: 'funders' | 'directors' | 'administrators' | 'other';
 RoleType returns string: 'reporter' | 'documentor' | 'translator' | 'developer' | 'commenter' | 'reactor' | 'reviewer' | 'merger' | 'developerRelations';
 SESType returns string: 'upperClass' | 'upperMiddleClass' | 'middleClass' | 'lowerMiddleClass' | 'lowerClass';
 SkillLevelType returns string: 'expert' | 'proficient' | 'advanced' | 'competent' | 'beginner';
 LanguageLevelType returns string: 'a1' | 'a2' | 'b1' | 'b2' | 'c1' | 'c2';
+EducationalLevelType returns string: 'earlyChildhood' | 'primary' | 'lowerSecondary' | 'upperSecondary' | 'postSecondaryNonTertiary' | 'shortCycleTertiary' | 'bachelorEquivalent' | 'masterEquivalent' | 'doctorateEquivalent';
+WorkplaceType returns string: 'remote' | 'hybrid' | 'presential';
+
+ISO3166ALPHA2 returns string: 'Andorra' | 'UnitedArabEmirates' | 'Afghanistan' | 'AntiguaandBarbuda' | 'Anguilla' | 'Albania' | 'Armenia' | 'Angola' | 'Antarctica' | 'Argentina' | 'AmericanSamoa' | 'Austria' | 'Australia' | 'Aruba' | 'ÅlandIslands' | 'Azerbaijan' | 'BosniaandHerzegovina' | 'Barbados' | 'Bangladesh' | 'Belgium' | 'BurkinaFaso' | 'Bulgaria' | 'Bahrain' | 'Burundi' | 'Benin' | 'SaintBarthélemy' | 'Bermuda' | 'BruneiDarussalam' | 'Bolivia,PlurinationalStateof' | 'Bonaire,SintEustatiusandSaba' | 'Brazil' | 'Bahamas' | 'Bhutan' | 'BouvetIsland' | 'Botswana' | 'Belarus' | 'Belize' | 'Canada' | 'Cocos(Keeling)Islands' | 'Congo,DemocraticRepublicofthe' | 'CentralAfricanRepublic' | 'Congo' | 'Switzerland' | 'CôtedIvoire' | 'CookIslands' | 'Chile' | 'Cameroon' | 'China' | 'Colombia' | 'CostaRica' | 'Cuba' | 'CaboVerde' | 'Curaçao' | 'ChristmasIsland' | 'Cyprus' | 'Czechia' | 'Germany' | 'Djibouti' | 'Denmark' | 'Dominica' | 'DominicanRepublic' | 'Algeria' | 'Ecuador' | 'Estonia' | 'Egypt' | 'WesternSahara' | 'Eritrea' | 'Spain' | 'Ethiopia' | 'Finland' | 'Fiji' | 'FalklandIslands(Malvinas)' | 'Micronesia,FederatedStatesof' | 'FaroeIslands' | 'France' | 'Gabon' | 'UnitedKingdomofGreatBritainandNorthernIreland' | 'Grenada' | 'Georgia' | 'FrenchGuiana' | 'Guernsey' | 'Ghana' | 'Gibraltar' | 'Greenland' | 'Gambia' | 'Guinea' | 'Guadeloupe' | 'EquatorialGuinea' | 'Greece' | 'SouthGeorgiaandtheSouthSandwichIslands' | 'Guatemala' | 'Guam' | 'Guinea-Bissau' | 'Guyana' | 'HongKong' | 'HeardIslandandMcDonaldIslands' | 'Honduras' | 'Croatia' | 'Haiti' | 'Hungary' | 'Indonesia' | 'Ireland' | 'Israel' | 'IsleofMan' | 'India' | 'BritishIndianOceanTerritory' | 'Iraq' | 'Iran,IslamicRepublicof' | 'Iceland' | 'Italy' | 'Jersey' | 'Jamaica' | 'Jordan' | 'Japan' | 'Kenya' | 'Kyrgyzstan' | 'Cambodia' | 'Kiribati' | 'Comoros' | 'SaintKittsandNevis' | 'Korea,DemocraticPeoplesRepublicof' | 'Korea,Republicof' | 'Kuwait' | 'CaymanIslands' | 'Kazakhstan' | 'LaoPeoplesDemocraticRepublic' | 'Lebanon' | 'SaintLucia' | 'Liechtenstein' | 'SriLanka' | 'Liberia' | 'Lesotho' | 'Lithuania' | 'Luxembourg' | 'Latvia' | 'Libya' | 'Morocco' | 'Monaco' | 'Moldova,Republicof' | 'Montenegro' | 'SaintMartin(Frenchpart)' | 'Madagascar' | 'MarshallIslands' | 'NorthMacedonia' | 'Mali' | 'Myanmar' | 'Mongolia' | 'Macao' | 'NorthernMarianaIslands' | 'Martinique' | 'Mauritania' | 'Montserrat' | 'Malta' | 'Mauritius' | 'Maldives' | 'Malawi' | 'Mexico' | 'Malaysia' | 'Mozambique' | 'Namibia' | 'NewCaledonia' | 'Niger' | 'NorfolkIsland' | 'Nigeria' | 'Nicaragua' | 'Netherlands,Kingdomofthe' | 'Norway' | 'Nepal' | 'Nauru' | 'Niue' | 'NewZealand' | 'Oman' | 'Panama' | 'Peru' | 'FrenchPolynesia' | 'PapuaNewGuinea' | 'Philippines' | 'Pakistan' | 'Poland' | 'SaintPierreandMiquelon' | 'Pitcairn' | 'PuertoRico' | 'Palestine,Stateof' | 'Portugal' | 'Palau' | 'Paraguay' | 'Qatar' | 'Réunion' | 'Romania' | 'Serbia' | 'RussianFederation' | 'Rwanda' | 'SaudiArabia' | 'SolomonIslands' | 'Seychelles' | 'Sudan' | 'Sweden' | 'Singapore' | 'SaintHelena,AscensionandTristandaCunha' | 'Slovenia' | 'SvalbardandJanMayen' | 'Slovakia' | 'SierraLeone' | 'SanMarino' | 'Senegal' | 'Somalia' | 'Suriname' | 'SouthSudan' | 'SaoTomeandPrincipe' | 'ElSalvador' | 'SintMaarten(Dutchpart)' | 'SyrianArabRepublic' | 'Eswatini' | 'TurksandCaicosIslands' | 'Chad' | 'FrenchSouthernTerritories' | 'Togo' | 'Thailand' | 'Tajikistan' | 'Tokelau' | 'Timor-Leste' | 'Turkmenistan' | 'Tunisia' | 'Tonga' | 'Türkiye' | 'TrinidadandTobago' | 'Tuvalu' | 'Taiwan,ProvinceofChina' | 'Tanzania,UnitedRepublicof' | 'Ukraine' | 'Uganda' | 'UnitedStatesMinorOutlyingIslands' | 'UnitedStatesofAmerica' | 'Uruguay' | 'Uzbekistan' | 'HolySee' | 'SaintVincentandtheGrenadines' | 'Venezuela,BolivarianRepublicof' | 'VirginIslands(British)' | 'VirginIslands(U.S.)' | 'VietNam' | 'Vanuatu' | 'WallisandFutuna' | 'Samoa' | 'Yemen' | 'Mayotte' | 'SouthAfrica' | 'Zambia' | 'Zimbabwe';
+ISO6391 returns string: 'Afar' | 'Abkhazian' | 'Avestan' | 'Afrikaans' | 'Akan' | 'Amharic' | 'Aragonese' | 'Arabic' | 'Assamese' | 'Avaric' | 'Aymara' | 'Azerbaijani' | 'Bashkir' | 'Belarusian' | 'Bulgarian' | 'Bislama' | 'Bambara' | 'Bengali' | 'Tibetan' | 'Breton' | 'Bosnian' | 'Catalan-Valencian' | 'Chechen' | 'Chamorro' | 'Corsican' | 'Cree' | 'Czech' | 'ChurchSlavonic-OldSlavonic-OldChurchSlavonic' | 'Chuvash' | 'Welsh' | 'Danish' | 'German' | 'Divehi-Dhivehi-Maldivian' | 'Dzongkha' | 'Ewe' | 'GreekModern' | 'English' | 'Esperanto' | 'Spanish-Castilian' | 'Estonian' | 'Basque' | 'Persian' | 'Fulah' | 'Finnish' | 'Fijian' | 'Faroese' | 'French' | 'WesternFrisian' | 'Irish' | 'Gaelic-ScottishGaelic' | 'Galician' | 'Guarani' | 'Gujarati' | 'Manx' | 'Hausa' | 'Hebrew' | 'Hindi' | 'HiriMotu' | 'Croatian' | 'Haitian-HaitianCreole' | 'Hungarian' | 'Armenian' | 'Herero' | 'Interlingua' | 'Indonesian' | 'Interlingue-Occidental' | 'Igbo' | 'SichuanYi-Nuosu' | 'Inupiaq' | 'Ido' | 'Icelandic' | 'Italian' | 'Inuktitut' | 'Japanese' | 'Javanese' | 'Georgian' | 'Kongo' | 'Kikuyu-Gikuyu' | 'Kuanyama-Kwanyama' | 'Kazakh' | 'Kalaallisut-Greenlandic' | 'CentralKhmer' | 'Kannada' | 'Korean' | 'Kanuri' | 'Kashmiri' | 'Kurdish' | 'Komi' | 'Cornish' | 'Kyrgyz-Kirghiz' | 'Latin' | 'Luxembourgish-Letzeburgesch' | 'Ganda' | 'Limburgan-Limburger-Limburgish' | 'Lingala' | 'Lao' | 'Lithuanian' | 'Luba-Katanga' | 'Latvian' | 'Malagasy' | 'Marshallese' | 'Maori' | 'Macedonian' | 'Malayalam' | 'Mongolian' | 'Marathi' | 'Malay' | 'Maltese' | 'Burmese' | 'Nauru' | 'NorwegianBokmål' | 'NorthNdebele' | 'Nepali' | 'Ndonga' | 'Dutch-Flemish' | 'NorwegianNynorsk' | 'Norwegian' | 'SouthNdebele' | 'Navajo-Navaho' | 'Chichewa-Chewa-Nyanja' | 'Occitan' | 'Ojibwa' | 'Oromo' | 'Oriya' | 'Ossetian-Ossetic' | 'Punjabi-Panjabi' | 'Pali' | 'Polish' | 'Pashto-Pushto' | 'Portuguese' | 'Quechua' | 'Romansh' | 'Rundi' | 'Romanian-Moldavian-Moldovan' | 'Russian' | 'Kinyarwanda' | 'Sanskrit' | 'Sardinian' | 'Sindhi' | 'NorthernSami' | 'Sango' | 'Sinhala-Sinhalese' | 'Slovak' | 'Slovenian' | 'Samoan' | 'Shona' | 'Somali' | 'Albanian' | 'Serbian' | 'Swati' | 'SouthernSotho' | 'Sundanese' | 'Swedish' | 'Swahili' | 'Tamil' | 'Telugu' | 'Tajik' | 'Thai' | 'Tigrinya' | 'Turkmen' | 'Tagalog' | 'Tswana' | 'Tonga' | 'Turkish' | 'Tsonga' | 'Tatar' | 'Twi' | 'Tahitian' | 'Uighur-Uyghur' | 'Ukrainian' | 'Urdu' | 'Uzbek' | 'Venda' | 'Vietnamese' | 'Volapük' | 'Walloon' | 'Wolof' | 'Xhosa' | 'Yiddish' | 'Yoruba' | 'Zhuang-Chuang' | 'Chinese' | 'Zulu';
+
 
 
 // *****************************************************************
@@ -101,31 +80,36 @@ Adaptation:
     TeamsArray
     ;
 
+Body:
+    'body' name=ID
+    'description:' description=STRING
+    'bodyType:' bodyType=BodyType
+    ('members:' (members+=BodyParticipant)+)?
+    ;
+
 Governance:
     'governance' name=ID
-    // projectType
+    ('projectType:' projectType=STRING)?
     ('governanceProcesses:' governanceProcesses=StringArray)?
-    ('funders:' (funders+=GovernanceParticipant)+)?
-    ('shareholders:' (shareholders+=GovernanceParticipant)+)?
     ;
 
-GovernanceParticipant: GovernanceOrganization | GovernanceIndividual;
+BodyParticipant: BodyOrganization | BodyIndividual;
 
-GovernanceOrganization:
-    governanceOrganization=[Organization:ID]
+BodyOrganization:
+    bodyOrganization=[Organization:ID]
     ;
 
-GovernanceIndividual:
-    governanceIndividual=[Participant:ID]
+BodyIndividual:
+    bodyIndividual=[Participant:ID]
     ;
 
 SocialContext:
     'socialContext' name=ID
     'description:' description=STRING
     ('culturalTraits:' culturalTraits=StringArray)?
-    'country:' country=[Country:ID]
-    ('spokenLanguages:' '[' (spokenLanguages+=[Language:ID])
-        (',' spokenLanguages+=[Language:ID])*']')?
+    ('country:' country=ISO3166ALPHA2)?
+    ('spokenLanguages:' '[' (spokenLanguages+=ISO6391)
+        (',' spokenLanguages+=ISO6391)*']')?
     TeamsArray
     ;
 
@@ -136,24 +120,23 @@ SocialContext:
 
 Participant:
     'participant' name=ID
-    'personalCharacteristics:' personalCharacteristics=PersonalCharacteristics
-    'culturalCharacteristics:' culturalCharacteristics=CulturalCharacteristics
+    'age:' age=NUMBER
+    'location:' location=STRING
+    'workplaceType:' workplaceType=WorkplaceType
+    'ethnicity:' ethnicity=STRING
+    'gender:' gender=STRING
+    'disabilities:' '[' disabilities+=STRING
+        (',' disabilities+=STRING)*']'
+    'sexualOrientation:' sexualOrientation=STRING
+    'religion:' religion=STRING
+    'country:' country=ISO3166ALPHA2
+    'educationalLevel:' educationalLevel=EducationalLevelType
+    'spokenLanguages:' '[' '(' spokenLanguages+=SpokenLanguage ')'
+        (',' '(' spokenLanguages+=SpokenLanguage ')')*']'
+    'socioEconomicStatus:' socioEconomicStatus=SESType
+    'skillLevel:' skillLevel=SkillLevelType
+    'tenure:' tenure=NUMBER
     ('participantId:' participantId=STRING)?
-    ;
-
-CulturalCharacteristics:
-    ('spokenLanguages:' '[(' spokenLanguages+=SpokenLanguage ')'
-        (',' '(' spokenLanguages+=SpokenLanguage ')')*']')?
-    ('socioEconomicStatus:' socioEconomicStatus=SESType)?
-    ('skillLevel:' skillLevel=SkillLevelType)?
-    ('tenure:' tenure=NUMBER)?
-    ;
-
-PersonalCharacteristics:
-    ('age:' age=NUMBER)?
-    ('ethnicity:' ethnicity=STRING)?
-    ('gender:' gender=STRING)?
-    ('country:' country=[Country:ID])?
     ;
 
 
@@ -162,22 +145,34 @@ PersonalCharacteristics:
 // *****************************************************************
 
 fragment Entity:
-    'personalCharacteristics:' personalTeamCharacteristics=PersonalTeamCharacteristics
-    'culturalCharacteristics:' culturalTeamCharacteristics=CulturalTeamCharacteristics
+    PersonalTeamCharacteristics
+    CulturalTeamCharacteristics
     ;
 
-PersonalTeamCharacteristics:
-    'startingAgeRange:' startingAgeRange=NUMBER
-    'endingAgeRange:' endingAgeRange=NUMBER
+fragment PersonalTeamCharacteristics:
+    'ageRange:' '(' startingAgeRange=NUMBER ',' endingAgeRange=NUMBER ')'
+    'locations:' '[' locations+=STRING
+        (',' locations+=STRING)*']'
+    'workplaceType:' workplaceType=WorkplaceType
     'ethnicities:' '[' ethnicities+=STRING
-        ((',' ethnicities+=STRING)*']')?
+        (',' ethnicities+=STRING)*']'
     'genders:' '[' genders+=STRING
-        ((',' genders+=STRING)*']')?
+        (',' genders+=STRING)*']'
+    'disabilities:' '[' disabilities+=STRING
+        (',' disabilities+=STRING)*']'
+    'sexualOrientations:' '[' sexualOrientations+=STRING
+        (',' sexualOrientations+=STRING)*']'
+    'religiousBeliefs:' '[' religiousBeliefs+=STRING
+        (',' religiousBeliefs+=STRING)*']'
+    'countries:' '[' countries+=ISO3166ALPHA2
+        (',' countries+=ISO3166ALPHA2)*']'
     ;
 
-CulturalTeamCharacteristics:
-    ('spokenLanguages:' '[(' spokenLanguages+=SpokenLanguage ')'
-        (',' '(' spokenLanguages+=SpokenLanguage ')')*']')?
+fragment CulturalTeamCharacteristics:
+    'educationalLevels:' '[' educationalLevels+=EducationalLevelType
+        (',' educationalLevels+=EducationalLevelType)*']'
+    'spokenLanguages:' '[' '(' spokenLanguages+=SpokenLanguage ')'
+        (',' '(' spokenLanguages+=SpokenLanguage ')')*']'
     'socioEconomicStati:' '[' (socioEconomicStati+=SESType)
         (',' socioEconomicStati+=SESType)*']'
     'skillLevels:' '[' (skillLevels+=SkillLevelType)
@@ -192,11 +187,12 @@ Team:
 fragment TeamAttributes:
     name=ID
     Entity
+    'description:' description=STRING
     'startDate:' startDate=DATE
-    'endDate:' endDate=DATE
-    'teamSize:' teamSize=NUMBER
+    ('endDate:' endDate=DATE)?
+    ('teamSize:' teamSize=NUMBER)?
     ('iterations:' iterations=NUMBER)?
-    ('teamParticipants:' '[(' teamParticipants+=TeamParticipant ')'
+    ('teamParticipants:' '[' '(' teamParticipants+=TeamParticipant ')'
         (',' '(' teamParticipants+=TeamParticipant ')')*']')?
     (LabourForce)?
     ;
@@ -210,8 +206,8 @@ TeamParticipant:
 
 fragment LabourForce:
     'salary:' salary=NUMBER
-    'labourRights:' StringArray
-    'country:' country=[Country:ID]
+    'labourRights:' labourRights=StringArray
+    'country:' country=ISO3166ALPHA2
     ;
 
 DevelopmentTeam:
@@ -223,13 +219,16 @@ NonCodingContributorTeam:
     TeamAttributes;
 
 TesterTeam:
-    'testerTeam' TeamAttributes
+    'testerTeam'
+    TeamAttributes
+    'testersBackground:' testersBackground=STRING
     'testingGuidelines:' testingGuidelines=STRING
     'appMaturity:' appMaturity=STRING
     ;
 
 PublicReporterTeam:
-    'publicReporterTeam' TeamAttributes
+    'publicReporterTeam'
+    TeamAttributes
     'reportingMethod:' reportingMethod=STRING
     'reportingPlatform:' reportingPlatform=STRING
     ;
