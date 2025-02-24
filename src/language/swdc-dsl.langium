@@ -144,7 +144,7 @@ Participant:
 // TEAMS
 // *****************************************************************
 
-fragment Entity:
+fragment Group:
     PersonalTeamCharacteristics
     CulturalTeamCharacteristics
     ;
@@ -158,12 +158,12 @@ fragment PersonalTeamCharacteristics:
         (',' ethnicities+=STRING)*']'
     'genders:' '[' genders+=STRING
         (',' genders+=STRING)*']'
-    'disabilities:' '[' disabilities+=STRING
-        (',' disabilities+=STRING)*']'
-    'sexualOrientations:' '[' sexualOrientations+=STRING
-        (',' sexualOrientations+=STRING)*']'
-    'religiousBeliefs:' '[' religiousBeliefs+=STRING
-        (',' religiousBeliefs+=STRING)*']'
+    ('disabilities:' '[' disabilities+=STRING
+        (',' disabilities+=STRING)*']')?
+    ('sexualOrientations:' '[' sexualOrientations+=STRING
+        (',' sexualOrientations+=STRING)*']')?
+    ('religiousBeliefs:' '[' religiousBeliefs+=STRING
+        (',' religiousBeliefs+=STRING)*']')?
     'countries:' '[' countries+=ISO3166
         (',' countries+=ISO3166)*']'
     ;
@@ -186,7 +186,7 @@ Team:
 
 fragment TeamAttributes:
     name=ID
-    Entity
+    Group
     'description:' description=STRING
     'startDate:' startDate=DATE
     ('endDate:' endDate=DATE)?
@@ -237,11 +237,11 @@ NoTeamEntity: Organization | TargetCommunity;
 
 Organization:
     'organization' name=ID
-    Entity
+    Group
     ;
 
 TargetCommunity:
     'targetCommunity' name=ID
     'description:' description=STRING
-    Entity
+    Group
     ;

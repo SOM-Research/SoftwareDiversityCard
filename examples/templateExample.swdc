@@ -48,27 +48,18 @@ organization DecidimBoard
     skillLevels: [advanced]
     averageTenure: 36
 
-/*governance Decidim 
- governanceProcesses: ["Board of Directors"]
- funders: DecidimBoard
- shareholders: [DecidimBoard]
-*/
-
 /******************************************************************************
- *                      Deployment context                                    *
+ *                      Usage context                                    *
  ******************************************************************************/
 
 /****** Target Comunities *******/
 targetCommunity nonDigitalSkilled
-    description: 'Una target community de gente mayor'
+    description: 'Elder people with low tech skills'
     ageRange: (60,100)
     locations: ['Spain']
     workplaceType: hybrid
     ethnicities: ['White']
-    genders: ['male']
-    disabilities: ['']
-    sexualOrientations: ['']
-    religiousBeliefs: ['']
+    genders: ['male', 'female']
     countries: [Spain]
     educationalLevels: [primary]
     spokenLanguages: [(Spanish-Castilian,c2)]
@@ -78,7 +69,7 @@ targetCommunity nonDigitalSkilled
 
 
 socialContext BarcelonaCouncil
-    description: "Barcelona council"
+    description: 'Barcelona council'
     country: Spain
     spokenLanguages: [Catalan-Valencian]
 
@@ -89,7 +80,7 @@ useCase nonSkilledAccesibityCitizen
 
 /*********** Adpatations *********/
 adaptation DigitalDivide 
-    description: "Adaptations for digital divice"
+    description: 'Adaptations for digital devices'
     useCases: [nonSkilledAccesibityCitizen]
     targetCommunities: [nonDigitalSkilled] 
 

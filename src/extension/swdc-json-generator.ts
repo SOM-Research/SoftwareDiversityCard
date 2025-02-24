@@ -71,7 +71,7 @@ export class JSONGenerator implements IJSONGenerator {
             });
             let item = {
                 id: nte.name,
-                description: isTargetCommunity(nte) ? nte.description : null, // it is not elegant, but I do not know any other solution
+                //description: isTargetCommunity(nte) ? nte.description : null, // it is not elegant, but I do not know any other solution
                 startingAgeRange: nte.startingAgeRange,
                 endingAgeRange: nte.endingAgeRange,
                 ethnicities: nte.ethnicities,
