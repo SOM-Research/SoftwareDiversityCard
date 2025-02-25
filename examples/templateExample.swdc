@@ -4,17 +4,16 @@
  * This file provides the initial scaffold for creating a Software Diversity  *
  * Card. Follow the steps below to set up your card properly.                 *
  ******************************************************************************
- * 1️⃣ Master Information:                                                    *
- *    - Define the primary settings, including the declaration of countries   *
- *      and languages relevant to your project.                               *
- *    - This scaffold includes examples for each type of team you can define. *
+ * 1️⃣ Governance:                                                             *
+ *    - Specify the governance-related bodies of the software project.        *
  ******************************************************************************
- * 2️⃣ Governance & Deployment:                                               *
- *    - Specify the governance model for your software project.               *
- *    - Define the deployment context, target populations and adaptations     *
+ * 2️⃣ Usage Context:                                                         *
+ *    - Define the target communities of your software                        *
+ *    - Define the deployment context and particular use cases of the software*
+ *    - Define the adaptations of the software for specific social groups     *
  ******************************************************************************
  * 3️⃣ Participants:                                                           *
- *    - Declare the teams involved in your project.                           *
+ *    - Declare the different teams and individuals involved in your project. *
  *    - Declare your dev team, testers, reporters, or translators             *
  ******************************************************************************
  * ✅ Final Steps:                                                            *
@@ -27,32 +26,36 @@
  *      👉 https://github.com/SOM-Research/SoftwareDiversityCard              *
  ******************************************************************************/
 
-
-
 /******************************************************************************
  *                      Governance                                            *
+ ******************************************************************************
+ * Define the governance structure for your software project. Specify the     *
+ * organizations or individuals responsible for oversight and decision-making.*
+ * Include key demographic and professional attributes to profile these groups.*
  ******************************************************************************/
-organization DecidimBoard
+organization SoftwareBoard
     ageRange: (23,46)
-    locations: ['Barcelona']
+    locations: ['USA']
     workplaceType: hybrid
     ethnicities: ['Asian', 'White']
     genders: ['male', 'female']
-    disabilities: ['']
-    sexualOrientations: ['']
-    religiousBeliefs: ['']
-    countries: [Spain]
-    educationalLevels: [primary, lowerSecondary]
-    spokenLanguages: [(English,b1)]
+    disabilities: ['blind']
+    sexualOrientations: ['Straight']
+    religiousBeliefs: ['Christianism', 'Muslim']
+    countries: [UnitedStatesofAmerica,Oman]
+    educationalLevels: [bachelorEquivalent,doctorateEquivalent]
+    spokenLanguages: [(English,c1),(Arabic,c1)]
     socioEconomicStati: [upperClass, upperMiddleClass]
-    skillLevels: [advanced]
+    skillLevels: [advanced, expert]
     averageTenure: 36
 
 /******************************************************************************
- *                      Usage context                                    *
+ *                             Usage context                                  *
+ ******************************************************************************
+ * Define the primary target communities for your software. Provide details  *
+ * such as demographic characteristics, geographic locations, and other       *
+ * user-specific traits.                                                      *
  ******************************************************************************/
-
-/****** Define the target Comunities of your software *******/
 targetCommunity nonDigitalSkilled
     description: 'Elder people with low tech skills'
     ageRange: (60,100)
@@ -67,27 +70,40 @@ targetCommunity nonDigitalSkilled
     skillLevels: [beginner]
     averageTenure: 70
 
-
-socialContext BarcelonaCouncil
-    description: 'Barcelona council'
+/****************************************************************************** 
+ *                     Social Context & Use Cases                             *
+ ****************************************************************************** 
+ * Describe the broader social environment and real-world scenarios where the *
+ * project is deployed. Include cultural, regional, or community-specific     *
+ * details that could impact software use and adaptation.                     *
+ ******************************************************************************/
+socialContext SocialContext
+    description: 'This is a description of the social context where the project is deployed'
     country: Spain
     spokenLanguages: [Catalan-Valencian]
 
-/****** Use Cases *******  */
 useCase nonSkilledAccesibityCitizen
     description: 'Acces for non-skilled digital citizen'
     targetCommunities: [nonDigitalSkilled]
 
-/*********** Adpatations *********/
-/** Relate the different target communities with the adaptations implemented on your software */
-
+/******************************************************************************
+ *                         Software Adaptations                               *
+ ****************************************************************************** 
+ * Specify adaptations implemented in the software to meet the needs of various  *
+ * target communities. Link these adaptations to their corresponding use cases   *
+ * and responsible teams for clarity and traceability.                        *
+ ******************************************************************************/
 adaptation DigitalDivide 
     description: 'Adaptations for digital devices'
     useCases: [nonSkilledAccesibityCitizen]
     targetCommunities: [nonDigitalSkilled] 
+    relatedTeams: [DevelopmentTeam]
 
 /******************************************************************************
- *                      Participants                                          *
+ *                                Participants                                *
+ ******************************************************************************
+ * Individuals: Optionally, list individual participants involved in project.  *
+ * Include relevant personal information to profile each contributor.          *
  ******************************************************************************/
 participant Developer1
     age: 46
@@ -157,7 +173,11 @@ participant Tester2
     tenure: 5
     participantId: 'enca'
 
-/******* End-user testers *********/
+ /******************************************************************************
+ * Teams: Define the various teams participating in the software project.     *
+ ******************************************************************************                      
+ * Testers: The team of testers, could be end-users or internal testers        *
+*******************************************************************************/
 testerTeam usabilityTesters
     ageRange: (34,46)
     locations: ['Barcelona']
@@ -186,7 +206,9 @@ testerTeam usabilityTesters
     testingGuidelines: ''
     appMaturity: ''
 
-/***** User public reporters *****/
+ /******************************************************************************
+ * User reporters: Crowd of users reporting feedback from the software usage   *
+*******************************************************************************/
 publicReporterTeam userReporting
     ageRange: (20,30)
     locations: ['Barcelona']
@@ -210,7 +232,9 @@ publicReporterTeam userReporting
     reportingMethod: "public interviews"
     reportingPlatform: "public council"
 
-/********* Translators ***********/
+ /******************************************************************************
+ * Non coding contributors: E.G. Translators of the software project           *
+*******************************************************************************/
 nonCodingContributorTeam Translators
     ageRange: (20,30)
     locations: ['Barcelona', 'Madrid', 'Granada']
@@ -231,7 +255,9 @@ nonCodingContributorTeam Translators
     endDate: 08-29-2025
     teamSize: 50
 
-/******* Issue reporters *********/
+ /******************************************************************************
+ * Non coding contributors: E.G. The issue reporters                           *       
+*******************************************************************************/
 nonCodingContributorTeam issueReporters
     ageRange: (20,30)
     locations: ['']
@@ -252,7 +278,9 @@ nonCodingContributorTeam issueReporters
     endDate: 08-29-2025
     teamSize: 50
 
-/******** Development Team *********/
+ /******************************************************************************
+ * Development Team                                                            *
+*******************************************************************************/
 developmentTeam DevelopmentTeam
     ageRange: (34,46)
     locations: ['Barcelona']
@@ -276,4 +304,3 @@ developmentTeam DevelopmentTeam
     teamParticipants: [(
         Developer1,developer,11-08-2024,08-29-2025),
         (Developer2,developer,11-08-2024,08-29-2025)]
-
