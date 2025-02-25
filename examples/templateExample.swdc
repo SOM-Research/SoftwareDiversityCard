@@ -52,7 +52,7 @@ organization DecidimBoard
  *                      Usage context                                    *
  ******************************************************************************/
 
-/****** Target Comunities *******/
+/****** Define the target Comunities of your software *******/
 targetCommunity nonDigitalSkilled
     description: 'Elder people with low tech skills'
     ageRange: (60,100)
@@ -79,6 +79,8 @@ useCase nonSkilledAccesibityCitizen
     targetCommunities: [nonDigitalSkilled]
 
 /*********** Adpatations *********/
+/** Relate the different target communities with the adaptations implemented on your software */
+
 adaptation DigitalDivide 
     description: 'Adaptations for digital devices'
     useCases: [nonSkilledAccesibityCitizen]
