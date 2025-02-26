@@ -27,7 +27,7 @@ entry Model:
 
 StringArray:
     '[' (stringElement+=STRING)
-        ((','stringElement+=STRING)*']')?
+        ((',' stringElement+=STRING)* ']')?
     ;
 
 
@@ -59,14 +59,14 @@ ISO639 returns string: 'Afar' | 'Abkhazian' | 'Avestan' | 'Afrikaans' | 'Akan' |
 
 fragment TeamsArray:
     ('relatedTeams:' '[' (relatedTeams+=[Team:ID])
-        (',' relatedTeams+=[Team:ID])*']')?
+        (',' relatedTeams+=[Team:ID])* ']')?
     ;
 
 UseCase:
     'useCase' name=ID
     'description:' description=STRING
     ('targetCommunities:' '[' (targetCommunities+=[TargetCommunity:ID])
-        (',' targetCommunities+=[TargetCommunity:ID])*']')?
+        (',' targetCommunities+=[TargetCommunity:ID])* ']')?
     ;
 
 Adaptation:
@@ -74,9 +74,9 @@ Adaptation:
     'description:' description=STRING
     ('release:' release=STRING)?
     ('useCases:' '[' (useCases+=[UseCase:ID])
-        (',' useCases+=[UseCase:ID])*']')?
+        (',' useCases+=[UseCase:ID])* ']')?
     ('targetCommunities:' '[' (targetCommunities+=[TargetCommunity:ID])
-        (',' targetCommunities+=[TargetCommunity:ID])*']')?
+        (',' targetCommunities+=[TargetCommunity:ID])* ']')?
     TeamsArray
     ;
 
@@ -90,6 +90,8 @@ Body:
 Governance:
     'governance' name=ID
     ('projectType:' projectType=STRING)?
+    ('bodies:' '[' (bodies+=[Body:ID])
+        (',' bodies+=[Body:ID])* ']')?
     ('governanceProcesses:' governanceProcesses=StringArray)?
     ;
 
@@ -109,7 +111,7 @@ SocialContext:
     ('culturalTraits:' culturalTraits=StringArray)?
     ('country:' country=ISO3166)?
     ('spokenLanguages:' '[' (spokenLanguages+=ISO639)
-        (',' spokenLanguages+=ISO639)*']')?
+        (',' spokenLanguages+=ISO639)* ']')?
     TeamsArray
     ;
 
@@ -126,13 +128,13 @@ Participant:
     'ethnicity:' ethnicity=STRING
     'gender:' gender=STRING
     'disabilities:' '[' disabilities+=STRING
-        (',' disabilities+=STRING)*']'
+        (',' disabilities+=STRING)* ']'
     'sexualOrientation:' sexualOrientation=STRING
     'religion:' religion=STRING
     'country:' country=ISO3166
     'educationalLevel:' educationalLevel=EducationalLevelType
     'spokenLanguages:' '[' '(' spokenLanguages+=SpokenLanguage ')'
-        (',' '(' spokenLanguages+=SpokenLanguage ')')*']'
+        (',' '(' spokenLanguages+=SpokenLanguage ')')* ']'
     'socioEconomicStatus:' socioEconomicStatus=SESType
     'skillLevel:' skillLevel=SkillLevelType
     'tenure:' tenure=NUMBER
@@ -152,31 +154,31 @@ fragment Group:
 fragment PersonalTeamCharacteristics:
     'ageRange:' '(' startingAgeRange=NUMBER ',' endingAgeRange=NUMBER ')'
     'locations:' '[' locations+=STRING
-        (',' locations+=STRING)*']'
+        (',' locations+=STRING)* ']'
     'workplaceType:' workplaceType=WorkplaceType
     'ethnicities:' '[' ethnicities+=STRING
-        (',' ethnicities+=STRING)*']'
+        (',' ethnicities+=STRING)* ']'
     'genders:' '[' genders+=STRING
-        (',' genders+=STRING)*']'
+        (',' genders+=STRING)* ']'
     ('disabilities:' '[' disabilities+=STRING
-        (',' disabilities+=STRING)*']')?
+        (',' disabilities+=STRING)* ']')?
     ('sexualOrientations:' '[' sexualOrientations+=STRING
-        (',' sexualOrientations+=STRING)*']')?
+        (',' sexualOrientations+=STRING)* ']')?
     ('religiousBeliefs:' '[' religiousBeliefs+=STRING
-        (',' religiousBeliefs+=STRING)*']')?
+        (',' religiousBeliefs+=STRING)* ']')?
     'countries:' '[' countries+=ISO3166
-        (',' countries+=ISO3166)*']'
+        (',' countries+=ISO3166)* ']'
     ;
 
 fragment CulturalTeamCharacteristics:
     'educationalLevels:' '[' educationalLevels+=EducationalLevelType
-        (',' educationalLevels+=EducationalLevelType)*']'
+        (',' educationalLevels+=EducationalLevelType)* ']'
     'spokenLanguages:' '[' '(' spokenLanguages+=SpokenLanguage ')'
-        (',' '(' spokenLanguages+=SpokenLanguage ')')*']'
+        (',' '(' spokenLanguages+=SpokenLanguage ')')* ']'
     'socioEconomicStati:' '[' (socioEconomicStati+=SESType)
-        (',' socioEconomicStati+=SESType)*']'
+        (',' socioEconomicStati+=SESType)* ']'
     'skillLevels:' '[' (skillLevels+=SkillLevelType)
-        (',' skillLevels+=SkillLevelType)*']'
+        (',' skillLevels+=SkillLevelType)* ']'
     'averageTenure:' averageTenure=NUMBER
     ;
 
@@ -193,7 +195,7 @@ fragment TeamAttributes:
     ('teamSize:' teamSize=NUMBER)?
     ('iterations:' iterations=NUMBER)?
     ('teamParticipants:' '[' '(' teamParticipants+=TeamParticipant ')'
-        (',' '(' teamParticipants+=TeamParticipant ')')*']')?
+        (',' '(' teamParticipants+=TeamParticipant ')')* ']')?
     (LabourForce)?
     ;
 
