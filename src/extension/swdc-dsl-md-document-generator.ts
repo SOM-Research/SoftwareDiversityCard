@@ -145,9 +145,9 @@ export class MDDocumentGenerator implements Generator {
 
     addSummary(sdc: any): string{
             // Start building the table
-        let table = '';
-        table += '| Property | Value |\n';
-        table += '| -------- | ----- |\n';
+        //let table = '';
+        //table += '| Property | Value |\n';
+        //table += '| -------- | ----- |\n';
 
         // Iterate over all properties of sdc
         //Object.keys(sdc.teams).forEach(key => {
