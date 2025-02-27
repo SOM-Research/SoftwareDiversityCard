@@ -1,0 +1,327 @@
+/******************************************************************************
+ *                      Software Diversity Card Scaffold                      *
+ ******************************************************************************
+ * This file provides the initial scaffold for creating a Software Diversity  *
+ * Card. Follow the steps below to set up your card properly.                 *
+ ******************************************************************************
+ * 1️⃣ Governance:                                                             *
+ *    - Specify the governance-related bodies of the software project.        *
+ ******************************************************************************
+ * 2️⃣ Usage Context:                                                         *
+ *    - Define the target communities of your software                        *
+ *    - Define the deployment context and particular use cases of the software*
+ *    - Define the adaptations of the software for specific social groups     *
+ ******************************************************************************
+ * 3️⃣ Participants:                                                           *
+ *    - Declare the different teams and individuals involved in your project. *
+ *    - Declare your dev team, testers, reporters, or translators             *
+ ******************************************************************************
+ * ✅ Final Steps:                                                            *
+ *    - Ensure your file has no validation errors.                            *
+ *    - Generate the JSON and Markdown representations for easy sharing.      *
+ *    - Embed the Markdown output in repositories or publish it online.       *
+ ******************************************************************************
+ * 🔗 Need Help?                                                              *
+ *    - If you have any questions, open an issue in our public repository:    *
+ *      👉 https://github.com/SOM-Research/SoftwareDiversityCard              *
+ ******************************************************************************/
+ /******************************************************************************
+ *                      Master Info                                            *
+ ******************************************************************************/
+softwareName:"The title or name of the software project"
+softwareDescription "The description of the software"
+
+/******************************************************************************
+ *                      Governance                                            *
+ ******************************************************************************
+ * Define the governance structure for your software project. Specify the     *
+ * organizations or individuals responsible for oversight and decision-making.*
+ * Include key demographic and professional attributes to profile these groups.*
+ ******************************************************************************/
+organization SoftwareAssociation
+    ageRange: (23,46)
+    locations: ['USA']
+    workplaceType: hybrid
+    ethnicities: ['Asian', 'White']
+    genders: ['male', 'female']
+    disabilities: ['blind']
+    sexualOrientations: ['Straight']
+    religiousBeliefs: ['Christianism', 'Muslim']
+    countries: [UnitedStatesofAmerica,Oman]
+    educationalLevels: [bachelorEquivalent,doctorateEquivalent]
+    spokenLanguages: [(English,c1),(Arabic,c1)]
+    socioEconomicStati: [upperClass, upperMiddleClass]
+    skillLevels: [advanced, expert]
+    averageTenure: 36
+
+body SoftwareBoard
+    description: "The board of the software"
+    bodyType: directors
+    organizations: [SoftwareAssociation]
+
+body publicFunder
+    description: "public funder"
+    bodyType: funders
+
+governance SoftwareGovernance
+    projectType: "the type of the project"
+    governanceProcesses: ["The list of governament processes", ""]
+    bodies: [SoftwareBoard,publicFunder]
+/******************************************************************************
+ *                             Usage context                                  *
+ ******************************************************************************
+ * Define the primary target communities for your software. Provide details  *
+ * such as demographic characteristics, geographic locations, and other       *
+ * user-specific traits.                                                      *
+ ******************************************************************************/
+targetCommunity nonDigitalSkilled
+    description: 'Elder people with low tech skills'
+    ageRange: (60,100)
+    locations: ['Spain']
+    workplaceType: hybrid
+    ethnicities: ['White']
+    genders: ['male', 'female']
+    countries: [Spain]
+    educationalLevels: [primary]
+    spokenLanguages: [(Spanish-Castilian,c2)]
+    socioEconomicStati: [lowerClass, lowerMiddleClass]
+    skillLevels: [beginner]
+    averageTenure: 70
+
+/****************************************************************************** 
+ *                     Social Context & Use Cases                             *
+ ****************************************************************************** 
+ * Describe the broader social environment and real-world scenarios where the *
+ * project is deployed. Include cultural, regional, or community-specific     *
+ * details that could impact software use and adaptation.                     *
+ ******************************************************************************/
+socialContext SocialContext
+    description: 'This is a description of the social context where the project is deployed'
+    country: Spain
+    spokenLanguages: [Catalan-Valencian]
+
+useCase nonSkilledAccesibityCitizen
+    description: 'Acces for non-skilled digital citizen'
+    targetCommunities: [nonDigitalSkilled]
+
+/******************************************************************************
+ *                         Software Adaptations                               *
+ ****************************************************************************** 
+ * Specify adaptations implemented in the software to meet the needs of various  *
+ * target communities. Link these adaptations to their corresponding use cases   *
+ * and responsible teams for clarity and traceability.                        *
+ ******************************************************************************/
+adaptation DigitalDivide 
+    description: 'Adaptations for digital devices'
+    useCases: [nonSkilledAccesibityCitizen]
+    targetCommunities: [nonDigitalSkilled] 
+    relatedTeams: [DevelopmentTeam]
+
+/******************************************************************************
+ *                                Participants                                *
+ ******************************************************************************
+ * Individuals: Optionally, list individual participants involved in project.  *
+ * Include relevant personal information to profile each contributor.          *
+ ******************************************************************************/
+participant Developer1
+    age: 46
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Asian'
+    gender: 'female'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,c1)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: proficient
+    tenure: 4
+    participantId: 'semo'
+
+participant Developer2
+    age: 45
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Black'
+    gender: 'male'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,b2)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: advanced
+    tenure: 5
+    participantId: 'enca'
+
+participant Tester1
+    age: 45
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Black'
+    gender: 'male'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,b2)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: advanced
+    tenure: 5
+    participantId: 'enca'
+
+participant Tester2
+    age: 45
+    location: 'Barcelona'
+    workplaceType: presential
+    ethnicity: 'Black'
+    gender: 'male'
+    disabilities: ['']
+    sexualOrientation: ''
+    religion: ''
+    country: Spain
+    educationalLevel: masterEquivalent
+    spokenLanguages: [(English,b2)]
+    socioEconomicStatus: upperMiddleClass
+    skillLevel: advanced
+    tenure: 5
+    participantId: 'enca'
+
+ /******************************************************************************
+ * Teams: Define the various teams participating in the software project.     *
+ ******************************************************************************                      
+ * Testers: The team of testers, could be end-users or internal testers        *
+*******************************************************************************/
+testerTeam usabilityTesters
+   description: 'equipo de testeo de usabilidad'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [( 
+         Tester1,developer,11-08-2024,08-29-2025),
+        (Tester2,developer,11-08-2024,08-29-2025)
+    ]
+    ageRange: (34,46)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['Asian']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [upperClass]
+    skillLevels: [competent]
+    averageTenure: 4.3
+    testersBackground: ''
+    testingGuidelines: ''
+    appMaturity: ''
+
+ /******************************************************************************
+ * User reporters: Crowd of users reporting feedback from the software usage   *
+*******************************************************************************/
+publicReporterTeam userReporting
+    description: 'public reporting team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 200
+    iterations: 2
+    ageRange: (20,30)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['white']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [middleClass]
+    skillLevels: [beginner]
+    averageTenure: 4.2
+    reportingMethod: "public interviews"
+    reportingPlatform: "public council"
+
+ /******************************************************************************
+ * Non coding contributors: E.G. Translators of the software project           *
+*******************************************************************************/
+nonCodingContributorTeam Translators
+    description: 'remote translators team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 50
+    ageRange: (20,30)
+    locations: ['Barcelona', 'Madrid', 'Granada']
+    workplaceType: remote
+    ethnicities: ['white']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [middleClass]
+    skillLevels: [beginner]
+    averageTenure: 4.2
+
+
+ /******************************************************************************
+ * Non coding contributors: E.G. The issue reporters                           *       
+*******************************************************************************/
+nonCodingContributorTeam issueReporters
+    description: 'external issue reporting team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 50
+    ageRange: (20,30)
+    locations: ['']
+    workplaceType: remote
+    ethnicities: ['white']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [middleClass]
+    skillLevels: [beginner]
+    averageTenure: 4.2
+
+
+ /******************************************************************************
+ * Development Team                                                            *
+*******************************************************************************/
+developmentTeam DevelopmentTeam
+    description: 'development team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [(
+        Developer1,developer,11-08-2024,08-29-2025),
+        (Developer2,developer,11-08-2024,08-29-2025)]
+    ageRange: (34,46)
+    locations: ['Barcelona']
+    workplaceType: hybrid
+    ethnicities: ['Asian']
+    genders: ['male']
+    disabilities: ['']
+    sexualOrientations: ['']
+    religiousBeliefs: ['']
+    countries: [Spain]
+    educationalLevels: [masterEquivalent]
+    spokenLanguages: [(English,c1)]
+    socioEconomicStati: [upperClass]
+    skillLevels: [competent]
+    averageTenure: 4.3
+
