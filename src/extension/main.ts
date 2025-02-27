@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext): void {
                     const edit = new vscode.WorkspaceEdit();
                     let scaffoldText = ``;
                     try {
-                        scaffoldText = fs.readFileSync(context.asAbsolutePath('startTemplate.sdwc'), 'utf-8');
+                        scaffoldText = fs.readFileSync(context.asAbsolutePath('startTemplate.swdc'), 'utf-8');
                     } catch(error) {
                         vscode.window.showErrorMessage(`Error loading template`);
                     }
