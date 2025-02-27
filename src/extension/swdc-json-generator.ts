@@ -13,9 +13,9 @@ export class JSONGenerator implements IJSONGenerator {
     
         const softwareDiversityCard = {
             // master info
-            //countries: this.generateCountries(model.countries),
-            //languages: this.generateLanguages(model.languages),
-            // context and governance
+            name: model.name,
+            description: model.desc,
+            // usage and governance
             targetCommunities: this.generateNoTeamEntities(model.organizations),
             organizations: this.generateNoTeamEntities(model.targetCommunity),
             bodies: this.generateBodies(model.bodies),
