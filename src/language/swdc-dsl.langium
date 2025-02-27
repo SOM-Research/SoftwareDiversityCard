@@ -12,6 +12,8 @@ hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
 
 entry Model:
+    'softwareName:' name=STRING
+    'softwareDescription' desc=STRING
     // CONTEXT AND GOVERNANCE
     (organizations+=NoTeamEntity)*
     (bodies+=Body)*
@@ -92,8 +94,10 @@ Body:
     'body' name=ID
     'description:' description=STRING
     'bodyType:' bodyType=BodyType
-    ('organizations:' (organizations+=[Organization:ID])*)?
-    ('individuals:' (individuals+=[Participant:ID])*)?
+    ('organizations:' '[' (orgs+=[Organization:ID])
+        (',' orgs+=[Organization:ID])*']')?
+    ('individuals:' '[' (individuals+=[Participant:ID])
+        (',' individuals+=[Participant:ID])*']')?
     ;
 
 Governance:
