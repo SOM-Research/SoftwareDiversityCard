@@ -25,6 +25,11 @@
  *    - If you have any questions, open an issue in our public repository:    *
  *      👉 https://github.com/SOM-Research/SoftwareDiversityCard              *
  ******************************************************************************/
+ /******************************************************************************
+ *                      Master Info                                            *
+ ******************************************************************************/
+softwareName:"The title or name of the software project"
+softwareDescription "The description of the software"
 
 /******************************************************************************
  *                      Governance                                            *
@@ -33,7 +38,7 @@
  * organizations or individuals responsible for oversight and decision-making.*
  * Include key demographic and professional attributes to profile these groups.*
  ******************************************************************************/
-organization SoftwareBoard
+organization SoftwareAssociation
     ageRange: (23,46)
     locations: ['USA']
     workplaceType: hybrid
@@ -49,6 +54,19 @@ organization SoftwareBoard
     skillLevels: [advanced, expert]
     averageTenure: 36
 
+body SoftwareBoard
+    description: "The board of the software"
+    bodyType: directors
+    organizations: [SoftwareAssociation]
+
+body publicFunder
+    description: "public funder"
+    bodyType: funders
+
+governance SoftwareGovernance
+    projectType: "the type of the project"
+    governanceProcesses: ["The list of governament processes", ""]
+    bodies: [SoftwareBoard,publicFunder]
 /******************************************************************************
  *                             Usage context                                  *
  ******************************************************************************
@@ -179,6 +197,15 @@ participant Tester2
  * Testers: The team of testers, could be end-users or internal testers        *
 *******************************************************************************/
 testerTeam usabilityTesters
+   description: 'equipo de testeo de usabilidad'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [( 
+         Tester1,developer,11-08-2024,08-29-2025),
+        (Tester2,developer,11-08-2024,08-29-2025)
+    ]
     ageRange: (34,46)
     locations: ['Barcelona']
     workplaceType: hybrid
@@ -193,15 +220,6 @@ testerTeam usabilityTesters
     socioEconomicStati: [upperClass]
     skillLevels: [competent]
     averageTenure: 4.3
-    description: 'equipo de testeo de usabilidad'
-    startDate: 11-08-2024
-    endDate: 08-29-2025
-    teamSize: 4
-    iterations: 3
-    teamParticipants: [( 
-         Tester1,developer,11-08-2024,08-29-2025),
-        (Tester2,developer,11-08-2024,08-29-2025)
-    ]
     testersBackground: ''
     testingGuidelines: ''
     appMaturity: ''
@@ -210,6 +228,11 @@ testerTeam usabilityTesters
  * User reporters: Crowd of users reporting feedback from the software usage   *
 *******************************************************************************/
 publicReporterTeam userReporting
+    description: 'public reporting team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 200
+    iterations: 2
     ageRange: (20,30)
     locations: ['Barcelona']
     workplaceType: hybrid
@@ -224,11 +247,6 @@ publicReporterTeam userReporting
     socioEconomicStati: [middleClass]
     skillLevels: [beginner]
     averageTenure: 4.2
-    description: 'public reporting team'
-    startDate: 11-08-2024
-    endDate: 08-29-2025
-    teamSize: 200
-    iterations: 2
     reportingMethod: "public interviews"
     reportingPlatform: "public council"
 
@@ -236,6 +254,10 @@ publicReporterTeam userReporting
  * Non coding contributors: E.G. Translators of the software project           *
 *******************************************************************************/
 nonCodingContributorTeam Translators
+    description: 'remote translators team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 50
     ageRange: (20,30)
     locations: ['Barcelona', 'Madrid', 'Granada']
     workplaceType: remote
@@ -250,15 +272,16 @@ nonCodingContributorTeam Translators
     socioEconomicStati: [middleClass]
     skillLevels: [beginner]
     averageTenure: 4.2
-    description: 'remote translators team'
-    startDate: 11-08-2024
-    endDate: 08-29-2025
-    teamSize: 50
+
 
  /******************************************************************************
  * Non coding contributors: E.G. The issue reporters                           *       
 *******************************************************************************/
 nonCodingContributorTeam issueReporters
+    description: 'external issue reporting team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 50
     ageRange: (20,30)
     locations: ['']
     workplaceType: remote
@@ -273,15 +296,20 @@ nonCodingContributorTeam issueReporters
     socioEconomicStati: [middleClass]
     skillLevels: [beginner]
     averageTenure: 4.2
-    description: 'external issue reporting team'
-    startDate: 11-08-2024
-    endDate: 08-29-2025
-    teamSize: 50
+
 
  /******************************************************************************
  * Development Team                                                            *
 *******************************************************************************/
 developmentTeam DevelopmentTeam
+    description: 'development team'
+    startDate: 11-08-2024
+    endDate: 08-29-2025
+    teamSize: 4
+    iterations: 3
+    teamParticipants: [(
+        Developer1,developer,11-08-2024,08-29-2025),
+        (Developer2,developer,11-08-2024,08-29-2025)]
     ageRange: (34,46)
     locations: ['Barcelona']
     workplaceType: hybrid
@@ -296,11 +324,4 @@ developmentTeam DevelopmentTeam
     socioEconomicStati: [upperClass]
     skillLevels: [competent]
     averageTenure: 4.3
-    description: 'development team'
-    startDate: 11-08-2024
-    endDate: 08-29-2025
-    teamSize: 4
-    iterations: 3
-    teamParticipants: [(
-        Developer1,developer,11-08-2024,08-29-2025),
-        (Developer2,developer,11-08-2024,08-29-2025)]
+

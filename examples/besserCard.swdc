@@ -7,6 +7,29 @@
  * Modeling Language)                                                         *
  ******************************************************************************/
 
+ /******************************************************************************
+ *                      Governance                                            *
+ ******************************************************************************/
+softwareName: "Besser"
+softwareDescription "The BESSER low-code platform is built on top of B-UML our 
+Python-based personal interpretation of a 'Universal Modeling Language' (yes, 
+heavily inspired and a simplified version of the better known UML, 
+the Unified Modeling Language)  "
+
+body PrincipalInvestigator
+ description: "Decidim is governed through the Decidim Free Software Association. This association have a board of elected directors"
+ bodyType: directors
+ individuals: [JordiCabot]
+
+
+body FNRLuxembourg 
+  description: "The public council of Barcelona City"
+  bodyType: funders
+
+governance BesserGovernance
+  projectType: "public funded"
+  governanceProcesses: ["Thing real", "hello"]
+  bodies: [FNRLuxembourg, PrincipalInvestigator]
 /******************************************************************************
  *                             Usage context                                  *
  ******************************************************************************/
@@ -15,31 +38,22 @@ targetCommunity studentsComputerScience
     ageRange: (20,100)
     locations: ['Europe']
     workplaceType: hybrid
-    ethnicities: ['Non-relevant']
-    genders:  ['Non-relevant']
     countries: [Luxembourg, France, Germany, Spain]
-    educationalLevels: [doctorateEquivalent,postSecondaryNonTertiary]
+    educationalLevels: [doctorateEquivalent, bachelorEquivalent, postSecondaryNonTertiary]
     spokenLanguages: [(Spanish-Castilian,c1),(French,c1), (English,c1), (German, c1)]
-    socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass]
     skillLevels: [beginner,competent]
-    averageTenure: 0
+    averageTenure: 0.5
 
 targetCommunity climatePublicServants
     description: 'Public servant with no code skills who want to develop visualization panels of climate data'
     ageRange: (20,100)
     locations: ['Luxembourg']
     workplaceType: hybrid
-    ethnicities: ['Non-relevant']
-    genders:  ['Non-relevant']
     countries: [Luxembourg]
-    educationalLevels: [postSecondaryNonTertiary]
+    educationalLevels: [postSecondaryNonTertiary, bachelorEquivalent]
     spokenLanguages: [(Luxembourgish-Letzeburgesch,c1), (French,c1), (English,c1), (German, c1)]
-    socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass]
     skillLevels: [beginner,competent]
     averageTenure: 0
-
-
-
 
 /******************************************************************************
  *                         Software Adaptations                               *
@@ -52,7 +66,6 @@ adaptation computerScienceTeachers
  description: "Adaptations for digital divice"
  targetCommunities: [studentsComputerScience]
  
-
  /******************************************************************************
  *                        Participants                                         *
  ******************************************************************************/
@@ -72,57 +85,48 @@ participant JordiCabot
    skillLevel: proficient
    tenure: 15
 
-
  /******************************************************************************
  * Teams: Define the various teams participating in the software project.     *
  ******************************************************************************                      
  * Testers: The team of testers, could be end-users or internal testers        *
 *******************************************************************************/
 testerTeam usabilityTesters
-    ageRange: (22,22)
-    locations: ['University of Luxembourg']
-    workplaceType: presential
-    ethnicities: ['French']
-    genders: ['non-disclosed']
-    countries: [France]
-    educationalLevels: [postSecondaryNonTertiary]
-    spokenLanguages: [(French,c1), (English,b2)]
-    socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass]
-    skillLevels: [beginner, competent]
-    averageTenure: 0.5
     description: 'Usability testers of Besser, composed of a crowd of student in computer science in the University of Luxembourg'
     startDate: 17-10-2023
     endDate: 17-10-2023
     teamSize: 18
     iterations: 1
+    ageRange: (22,22)
+    locations: ['University of Luxembourg']
+    workplaceType: presential
+    ethnicities: ['French']
+    countries: [France]
+    educationalLevels: [postSecondaryNonTertiary]
+    spokenLanguages: [(French,c1), (English,b2)]
+    skillLevels: [beginner, competent]
+    averageTenure: 0.5
     testersBackground: 'Tester are student of the computer science degree at the Luxembourg University'
     testingGuidelines: 'Using the backend generator from scratch with the documentation of BESSER (with a given PlantUML, library model)
   Using ChatGPT4o only giving the PlantUML model and no hand coding'
     appMaturity: 'Beta release'
 
-
-
-
  /******************************************************************************
  * Development Team                                                            *
 *******************************************************************************/
 developmentTeam DevelopmentTeam
+    description: 'The Besser development team is composed of 15 developers, based in Luxembourg, from 11 different ethnicities'
+    startDate: 11-08-2022
+    teamSize: 15
     ageRange: (25,36)
     locations: ['Luxembourg Institute of Technology, Esch-sur-Alzette, Luxembourg']
     workplaceType: presential
     ethnicities: ['Colombian','Brasilian', 'Argentinian', 'French', 'Spanish', 'Pakistani', 'Serbian', 'Iranian', 'Morroco', 'Italian']
     genders: ['male 80%','famela 20%','non-binary 0%']
-    disabilities: ['Not disclosed']
-    sexualOrientations: ['Not disclosed']
     religiousBeliefs: ["Christianism","Islam"]
     countries: [Luxembourg]
     educationalLevels: [masterEquivalent, doctorateEquivalent]
     spokenLanguages: [(English,c1)]
-    socioEconomicStati: [upperClass]
-    skillLevels: [competent]
     averageTenure: 3.3
-    description: 'The Besser development team is composed of 15 developers, based in Luxembourg, from 11 different ethnicities'
-    startDate: 11-08-2022
-    teamSize: 15
+
 
 

@@ -13,9 +13,10 @@ hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
 
 entry Model:
     // CONTEXT AND GOVERNANCE
-    (organizationsAndTargetCommunities+=NoTeamEntity)*
+    (organizations+=NoTeamEntity)*
     (bodies+=Body)*
     (governances+=Governance)*
+    (targetCommunity+=NoTeamEntity)*
     (socialContexts+=SocialContext)*
     (useCases+=UseCase)*
     (adaptations+=Adaptation)*
@@ -24,6 +25,8 @@ entry Model:
     // TEAMS
     (teams+=Team)*
     ;
+
+
 
 StringArray:
     '[' (stringElement+=STRING)
@@ -80,11 +83,17 @@ Adaptation:
     TeamsArray
     ;
 
+Organization:
+    'organization' name=ID
+    Group
+    ;
+
 Body:
     'body' name=ID
     'description:' description=STRING
     'bodyType:' bodyType=BodyType
-    ('members:' (members+=BodyParticipant)+)?
+    ('organizations:' (organizations+=[Organization:ID])*)?
+    ('individuals:' (individuals+=[Participant:ID])*)?
     ;
 
 Governance:
@@ -93,6 +102,9 @@ Governance:
     ('bodies:' '[' (bodies+=[Body:ID])
         (',' bodies+=[Body:ID])* ']')?
     ('governanceProcesses:' governanceProcesses=StringArray)?
+    ('bodies:' '[' (bodies+=[Body:ID])
+        (',' bodies+=[Body:ID])*']')?
+
     ;
 
 BodyParticipant: BodyOrganization | BodyIndividual;
@@ -148,38 +160,27 @@ Participant:
 
 fragment Group:
     PersonalTeamCharacteristics
-    CulturalTeamCharacteristics
+    (CulturalTeamCharacteristics)?
     ;
 
 fragment PersonalTeamCharacteristics:
     'ageRange:' '(' startingAgeRange=NUMBER ',' endingAgeRange=NUMBER ')'
-    'locations:' '[' locations+=STRING
-        (',' locations+=STRING)* ']'
-    'workplaceType:' workplaceType=WorkplaceType
-    'ethnicities:' '[' ethnicities+=STRING
-        (',' ethnicities+=STRING)* ']'
-    'genders:' '[' genders+=STRING
-        (',' genders+=STRING)* ']'
-    ('disabilities:' '[' disabilities+=STRING
-        (',' disabilities+=STRING)* ']')?
-    ('sexualOrientations:' '[' sexualOrientations+=STRING
-        (',' sexualOrientations+=STRING)* ']')?
-    ('religiousBeliefs:' '[' religiousBeliefs+=STRING
-        (',' religiousBeliefs+=STRING)* ']')?
-    'countries:' '[' countries+=ISO3166
-        (',' countries+=ISO3166)* ']'
+    'locations:' '[' locations+=STRING (',' locations+=STRING)*']'
+    ('workplaceType:' workplaceType=WorkplaceType)?
+    ('ethnicities:' '[' ethnicities+=STRING (',' ethnicities+=STRING)*']')?
+    ('genders:' '[' genders+=STRING(',' genders+=STRING)*']')?
+    ('disabilities:' '[' disabilities+=STRING (',' disabilities+=STRING)*']')?
+    ('sexualOrientations:' '[' sexualOrientations+=STRING (',' sexualOrientations+=STRING)*']')?
+    ('religiousBeliefs:' '[' religiousBeliefs+=STRING (',' religiousBeliefs+=STRING)*']')?
+    'countries:' '[' countries+=ISO3166 (',' countries+=ISO3166)*']'
     ;
 
 fragment CulturalTeamCharacteristics:
-    'educationalLevels:' '[' educationalLevels+=EducationalLevelType
-        (',' educationalLevels+=EducationalLevelType)* ']'
-    'spokenLanguages:' '[' '(' spokenLanguages+=SpokenLanguage ')'
-        (',' '(' spokenLanguages+=SpokenLanguage ')')* ']'
-    'socioEconomicStati:' '[' (socioEconomicStati+=SESType)
-        (',' socioEconomicStati+=SESType)* ']'
-    'skillLevels:' '[' (skillLevels+=SkillLevelType)
-        (',' skillLevels+=SkillLevelType)* ']'
-    'averageTenure:' averageTenure=NUMBER
+    ('educationalLevels:' '[' educationalLevels+=EducationalLevelType (',' educationalLevels+=EducationalLevelType)*']')?
+    ('spokenLanguages:' '[' '(' spokenLanguages+=SpokenLanguage ')' (',' '(' spokenLanguages+=SpokenLanguage ')')*']')?
+    ('socioEconomicStati:' '[' (socioEconomicStati+=SESType)(',' socioEconomicStati+=SESType)*']')?
+    ('skillLevels:' '[' (skillLevels+=SkillLevelType) (',' skillLevels+=SkillLevelType)*']')?
+    ('averageTenure:' averageTenure=NUMBER)?
     ;
 
 Team:
@@ -188,14 +189,14 @@ Team:
 
 fragment TeamAttributes:
     name=ID
-    Group
     'description:' description=STRING
     'startDate:' startDate=DATE
     ('endDate:' endDate=DATE)?
     ('teamSize:' teamSize=NUMBER)?
     ('iterations:' iterations=NUMBER)?
     ('teamParticipants:' '[' '(' teamParticipants+=TeamParticipant ')'
-        (',' '(' teamParticipants+=TeamParticipant ')')* ']')?
+        (',' '(' teamParticipants+=TeamParticipant ')')*']')?
+    Group
     (LabourForce)?
     ;
 
@@ -237,10 +238,7 @@ PublicReporterTeam:
 
 NoTeamEntity: Organization | TargetCommunity;
 
-Organization:
-    'organization' name=ID
-    Group
-    ;
+
 
 TargetCommunity:
     'targetCommunity' name=ID

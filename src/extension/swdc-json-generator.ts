@@ -1,4 +1,4 @@
-import { Model, Team, NoTeamEntity, isTargetCommunity, isOrganization, Governance, SocialContext, TargetCommunity, UseCase, Organization, Adaptation, Body, BodyIndividual, BodyOrganization, isBodyIndividual, isBodyOrganization } from '../language/generated/ast.js';
+import { Model, Team, NoTeamEntity, Governance, SocialContext, UseCase, Adaptation, Body} from '../language/generated/ast.js';
 
 export interface IJSONGenerator {
     model2Json(model : Model) : any | undefined;
@@ -8,16 +8,16 @@ export class JSONGenerator implements IJSONGenerator {
 
     model2Json(model : Model) : any | undefined {
 
-        const organizations = model.organizationsAndTargetCommunities.filter(nte => isOrganization(nte)) as Organization[];
-        const targetCommunities = model.organizationsAndTargetCommunities.filter(nte => isTargetCommunity(nte)) as TargetCommunity[];
+        //const organizations = model.organizations.filter(nte => isOrganization(nte)) as Organization[];
+        //const targetCommunities = model.targetCommunity.filter(nte => isTargetCommunity(nte)) as TargetCommunity[];
     
         const softwareDiversityCard = {
             // master info
             //countries: this.generateCountries(model.countries),
             //languages: this.generateLanguages(model.languages),
             // context and governance
-            targetCommunities: this.generateNoTeamEntities(targetCommunities),
-            organizations: this.generateNoTeamEntities(organizations),
+            targetCommunities: this.generateNoTeamEntities(model.organizations),
+            organizations: this.generateNoTeamEntities(model.targetCommunity),
             bodies: this.generateBodies(model.bodies),
             governances: this.generateGovernances(model.governances),
             socialContexts: this.generateSocialContexts(model.socialContexts),
@@ -92,7 +92,8 @@ export class JSONGenerator implements IJSONGenerator {
             let item = {
                 id: i.name,
                 projectType: i.projectType,
-                governanceProcesses: i.governanceProcesses
+                //governanceProcesses: i.governanceProcesses
+                //bodies: i.bodies
             };
             result.push(item)
         });
@@ -106,8 +107,10 @@ export class JSONGenerator implements IJSONGenerator {
                 id: i.name,
                 description: i.description,
                 type: i.bodyType,
-                members: i.members.filter(f => isBodyIndividual(f)).map(f => (f as BodyIndividual).bodyIndividual.$refText, 'individual').concat(
-                    i.members.filter(f => isBodyOrganization(f)).map(f => (f as BodyOrganization).bodyOrganization.$refText, 'organization'))
+                //organizations: i.orgs,
+                //individuals: i.individuals
+                //members: i.members.filter(f => isBodyIndividual(f)).map(f => (f as BodyIndividual).bodyIndividual.$refText, 'individual').concat(
+                //    i.members.filter(f => isBodyOrganization(f)).map(f => (f as BodyOrganization).bodyOrganization.$refText, 'organization'))
             };
             result.push(item)
         });

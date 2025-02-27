@@ -13,43 +13,54 @@
 /******************************************************************************
  *                      Governance                                            *
  ******************************************************************************/
+softwareName: "Decidim: A Participatory Software"
+softwareDescription " Decidim.org is an open-source participatory democracy platform that enables
+ organizations, governments, and communities to engage citizens in          
+ decision-making processes. It provides tools for deliberation, voting,     
+ participatory budgeting, and proposal-making, allowing for transparent and  
+ inclusive democratic participation. Originally developed by the Barcelona   
+ City Council, Decidim is built on Ruby on Rails and follows strong ethical 
+ and governance principles, ensuring data privacy, accessibility, and       
+ adaptability for various institutions."
 
-organization DecidimAssociation
-    ageRange: (23,46)
-    locations: ['USA']
-    workplaceType: hybrid
-    ethnicities: ['Asian', 'White']
-    genders: ['male', 'female']
-    disabilities: ['blind']
-    sexualOrientations: ['Straight']
-    religiousBeliefs: ['Christianism', 'Muslim']
-    countries: [UnitedStatesofAmerica,Oman]
-    educationalLevels: [bachelorEquivalent,doctorateEquivalent]
-    spokenLanguages: [(English,c1),(Arabic,c1)]
-    socioEconomicStati: [upperClass, upperMiddleClass]
-    skillLevels: [advanced, expert]
-    averageTenure: 36
+ organization DecidimAssociation
+        ageRange: (23,46)
+        locations: ['USA']
+        workplaceType: hybrid
+        ethnicities: ['Asian', 'White']
+        genders: ['male', 'female']
+        disabilities: ['blind']
+        sexualOrientations: ['Straight']
+        religiousBeliefs: ['Christianism', 'Muslim']
+        countries: [UnitedStatesofAmerica,Oman]
+        educationalLevels: [bachelorEquivalent,doctorateEquivalent]
+        spokenLanguages: [(English,c1),(Arabic,c1)]
+        socioEconomicStati: [upperClass, upperMiddleClass]
+        skillLevels: [advanced, expert]
+        averageTenure: 4
+        
 
-//body DecidimBoard 
-// description: "Decidim is governed through the Decidim Free Software Association. This association have a board of elected directors"
-// bodyType: directors
-// members: DecidimAssociation
 
-//body crowdfunders 
-// description: "The group of crowdfunder who funds Decidim thourhg the platform OpenColective"
-// bodyType: funders
+body DecidimBoard 
+ description: "Decidim is governed through the Decidim Free Software Association. This association have a board of elected directors"
+ bodyType: directors
+ organizations: [DecidimAssociation]
 
-//body BarcelonaCouncil 
-// description: "The public council of Barcelona City"
-// bodyType: funders
 
-//governance DecidimGovernance
-//    projectType: "Non-profit"
-//    governanceProcesses: 
-//        ["Decidim is governed through the Decidim Free Software Association.",
-//        "Decidim is partially funded by a group of crowdsourers using the platform OpenCollective",
-//        "Decidim is mainly funded by public funders such as the Council of Barcelona city"]
-//      bodies: [DecidimBoard, crowdfunder, BarcelonaCouncil]
+body crowdfunders 
+ description: "The group of crowdfunder who funds Decidim thourhg the platform OpenColective"
+ bodyType: funders
+
+body BarcelonaCouncil 
+  description: "The public council of Barcelona City"
+  bodyType: funders
+
+governance DecidimGovernance
+  projectType: "public funded"
+  governanceProcesses: ["Thing real"]
+  bodies: [crowdfunders,BarcelonaCouncil,DecidimBoard]
+
+
 
 /******************************************************************************
  *                             Usage context                                  *
@@ -59,8 +70,6 @@ targetCommunity nonDigitalSkilled
         ageRange: (60,100)
         locations: ["Barcelona"]
         workplaceType: presential
-        ethnicities: ['Non-relevant']
-        genders:  ['Non-relevant']
         countries: [Spain]
         educationalLevels: [shortCycleTertiary, primary, earlyChildhood]
         spokenLanguages: [(Catalan-Valencian,b1), (Spanish-Castilian,b1),(Arabic,b1), (English,b1)]
@@ -110,6 +119,10 @@ adaptation accesiblityAudits
  ******************************************************************************/
 /***** User public reporters *****/
 publicReporterTeam userReporting
+        description: "A set of interviews done by the council to gather the feedback from citizens about the use the platform"
+        startDate: 11-08-2022
+        endDate: 11-11-2022
+        teamSize: 200 // to be checked
         ageRange: (18,65)
         locations: ["Barcelona city"]
         workplaceType: remote
@@ -121,52 +134,41 @@ publicReporterTeam userReporting
         socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass]
         skillLevels: [beginner, competent]
         averageTenure: 0 // need to be optionka
-        description: "A set of interviews done by the council to gather the feedback from citizens about the use the platform"
-        startDate: 11-08-2022
-        endDate: 11-11-2022
-        teamSize: 200 // to be checked
         reportingMethod: "public interviews"
         reportingPlatform: "public council"
 
 /********* Translators ***********/
 nonCodingContributorTeam Translators
-        ageRange: (0,100)
-        locations: [""] 
-        workplaceType: remote
-        ethnicities: ['white'] // to be optional
-        genders: ['male'] // to be optional
-        countries: [Spain]
-        educationalLevels: [primary,doctorateEquivalent,lowerSecondary] // to be optional
-        spokenLanguages: [(English,c1), (Spanish-Castilian,c1)] // to be optional
-        socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass] // to be optional
-        skillLevels: [beginner, competent, advanced]
-        averageTenure: 4.2 // to be optional
         description: "Decidim is translated by team a volunteers, to more than 20 languages. The volunteers are member of the metadecidim platform, and onyl the nicknames are disclosed "
         startDate: 01-01-2017
         teamSize: 375
+        ageRange: (0,100)
+        locations: ["MetaDecidim platform"] 
+        workplaceType: remote
+        countries: [Spain]
+        skillLevels: [beginner, competent, advanced]
    
 
 /******* Issue reporters *********/
 nonCodingContributorTeam featureReporters
-        ageRange: (0,100)
-        locations: ['non-disclosed']
-        workplaceType: hybrid 
-        ethnicities: ['non-disclosed'] // to be optional
-        genders: ['male','famela','fluid'] 
-        countries: [Spain]
-        educationalLevels: [primary,doctorateEquivalent,lowerSecondary] // to be optional
-        spokenLanguages: [(English,c1), (Spanish-Castilian,c1)] // to be optional
-        socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass] // to be optional
-        skillLevels: [beginner, competent] // to be optional
-        averageTenure: 4.2 // to be optional
         description: 'Decidim has a platform call metadecidim where users can report bugs. A number 887 proposal have been reported '
         startDate: 11-08-2016
         teamSize: 210
+        ageRange: (0,100)
+        locations: ['MetaDecidim platform']
+        workplaceType: hybrid 
+        genders: ['male','famela','fluid'] 
+        countries: [Spain]
+        skillLevels: [competent, proficient, expert] 
+        averageTenure: 4.2 // Medium years on platform of the users
         // I miss the number of features reported as a controlled attribute
     
 
 /******** Development Team *********/
 developmentTeam DevelopmentTeam
+    description: "The team is composed by 2 core developers, 5 maintainers, and two external teams of 3 and 4 members developing relevant features of Decidim"
+    startDate: 11-08-2014
+    teamSize: 14
     ageRange:(30,40)
     locations: ['Canodorm in Barcelona', "Madrid", "Remote"]
     workplaceType: hybrid
@@ -178,7 +180,5 @@ developmentTeam DevelopmentTeam
     socioEconomicStati: [lowerClass, lowerMiddleClass, upperClass]
     skillLevels: [competent, expert, proficient]
     averageTenure: 5.6
-    description: "The team is composed by 2 core developers, 5 maintainers, and two external teams of 3 and 4 members developing relevant features of Decidim"
-    startDate: 11-08-2014
-    teamSize: 14
+
 
