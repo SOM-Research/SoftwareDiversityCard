@@ -37,20 +37,21 @@ export class MDDocumentGenerator implements Generator {
     generateMDfromJSON(sdc: any) : string {
         let result = new Array();
         
-        result.push(this.header('# Software Diversity Card'));
-        result.push(this.header('poner algo de texto introductorio'));
-        result.push(this.header('## Entities and Individuals'));
-        result.push(this.header('poner algo de texto introductorio de esta subsección'));
+        result.push(this.header('# Software Diversity Card of '+sdc.name));
+        result.push(this.header(sdc.desc));
+        result.push(this.header('## Card Summary'))
+        result.push(this.addSummary(sdc));
+        result.push(this.header('Below are listed the teams and individuals participanting in the project'));
         result.push(this.generateSubsection('### Participants', sdc.participants, EnumAdditionalAssociations.SpokenLanguages));
         result.push(this.generateSubsection('### Teams', sdc.teams, EnumAdditionalAssociations.Both));
-        result.push(this.header('## Contexts'));
-        result.push(this.header('poner algo de texto introductorio de esta otra subsección'));
+        result.push(this.header('## Usage context'));
+        result.push(this.header('Below are listed the target communities and adaptations of the software project'));
         result.push(this.generateSubsection('### Target Communities', sdc.targetCommunities));
         result.push(this.generateSubsection('### Social Contexts', sdc.socialContexts));
         result.push(this.generateSubsection('### Use Cases', sdc.useCases));
         result.push(this.generateSubsection('### Adaptations', sdc.adaptations));
         result.push(this.header('## Governance'));
-        result.push(this.header('poner algo de texto introductorio de esta otra subsección'));
+        result.push(this.header('Below are listed the governances processes and the different bodies and organization participating'));
         result.push(this.generateSubsection('### Organizations', sdc.organizations));
         result.push(this.generateSubsection('### Bodies', sdc.bodies));
         result.push(this.generateSubsection('### Governance', sdc.governances));
@@ -140,6 +141,21 @@ export class MDDocumentGenerator implements Generator {
 
     label(str: string) : string {
         return '- _'.concat(str, '_: ');
+    }
+
+    addSummary(sdc: any): string{
+            // Start building the table
+        let table = '';
+        table += '| Property | Value |\n';
+        table += '| -------- | ----- |\n';
+
+        // Iterate over all properties of sdc
+        //Object.keys(sdc.teams).forEach(key => {
+            // Optionally, you can filter out properties that you do not want to include
+        //    table += `| ${key.name} | ${formatValue(sdc[key])} |\n`;
+        //});
+
+        return "";
     }
 
 }
