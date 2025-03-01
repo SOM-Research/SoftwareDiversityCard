@@ -10,6 +10,7 @@ This repository is composed of a language plugin for Visual Studio Code, develop
 The following tree shows the list of the repository's relevant sections:
 
 - If you are solely intersted in the web editor, all the code is contained in the /web_editor folder with the installatin instruction inside.
+![alt text](web_editor/webEditor.png?raw=true)
 
 
 - If you are interesting in the language plugin for VSCode: 
@@ -18,6 +19,8 @@ The following tree shows the list of the repository's relevant sections:
     - The *cli* folder is the generated grammar and AST from Langium. You may not want to dive in it as it is a generated asset.
     - The *extension* folder contains all the code of the generation service. Could be a good place to start if you want to improve the generation of the tool.
     - The *language* folder contains all the language features, and the grammar declaration. If you want to improve the grammar, or some of the features the plugin offers here is the place you may want to start.
+
+![alt text](pluginUI.png?raw=true)
 
 ## Usage: Defining Software Diversity Cards
 
