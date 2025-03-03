@@ -1,4 +1,4 @@
-# Software Diversity Card
+# Software Diversity Card :busts_in_silhouette:
 
 Welcome to the main repository of the Software Diversity card. This repository contains a set of tools that helps you generate the diversity cards for your software and generate both JSON and Markdown formats to share with the world. The Software Diversity Card is a comprehensive approach to disclosing diverse information about the teams involved in the development and governance of the project, the user groups engaged in testing, and the specific software adaptations for different social groups. The goal is to facilitate the card creation to foster inclusive practices in open-source communities, academic journals, and forward-thinking businesses.
 
@@ -8,7 +8,7 @@ This repository is part of an ongoing research project. Preprint: **to be announ
 
 This repository comprises a language plugin for Visual Studio Code, developed with Langium, and a web-form editor developed with Streamlit. If you are interested in the web-form editor, please go directly to the **Web Editor** section
 
-### A language plugin for Visual Studio Code
+### :page_with_curl: A language plugin for Visual Studio Code
 The following tree shows the list of the repository's relevant sections:
 
   -   The *examples* folder contains an example of a software diversity card created using the DSL.
@@ -19,13 +19,13 @@ The following tree shows the list of the repository's relevant sections:
 
 ![alt text](pluginUI.png?raw=true)
 
-#### Usage: Defining Software Diversity Cards 
+#### Usage examples:
 
 In the *examples* folders, you can find two examples of Software Diversity Card instances described using the plugin of two mature open-source projects involving different groups of people. The two projects are [Decidim](https://decidim.org/), a participatory software used by over 400 administrations worldwide to allow citizens to participate in public decisions, and [Besser](http://besser-pearl.org/), a low-code platform designed to enable non-coding profiles to develop software applications in various domains. Despite their distinct characteristics, such as target users, both projects are open-source, publicly funded, and part of a user community.
 
 We hope these examples could help you use the tools. If you have any other questions, do not hesitate to open an issue.
 
-### Web editor
+### :computer: Web editor
 
 If you want to create the card using the web editor, all the code and installation instructions are in the /web_editor folder. 
 
