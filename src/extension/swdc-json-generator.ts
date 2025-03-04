@@ -16,8 +16,8 @@ export class JSONGenerator implements IJSONGenerator {
             name: model.name,
             description: model.desc,
             // usage and governance
-            targetCommunities: this.generateNoTeamEntities(model.organizations),
-            organizations: this.generateNoTeamEntities(model.targetCommunity),
+            organizations: this.generateNoTeamEntities(model.organizations),
+            targetCommunities: this.generateNoTeamEntities(model.targetCommunity),
             bodies: this.generateBodies(model.bodies),
             governances: this.generateGovernances(model.governances),
             socialContexts: this.generateSocialContexts(model.socialContexts),

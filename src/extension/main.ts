@@ -100,7 +100,7 @@ async function generateJsonService(context: vscode.ExtensionContext) {
         2,
         {
             // Enable scripts in the webview
-            enableScripts: false,
+            enableScripts: true,
             retainContextWhenHidden: false,
             // And restrict the webview to only loading content from our extension's 'assets' directory.
             localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'assets'))]
@@ -117,17 +117,37 @@ async function generateJsonService(context: vscode.ExtensionContext) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
             <title>JSON Preview</title>
             <style>
-                body { font-family: monospace; padding: 20px; background: #282c34; color: #abb2bf; }
-                pre { white-space: pre-wrap; word-wrap: break-word; }
+                body { font-family: monospace; padding: 20px; background:rgb(240, 241, 245); color:rgb(3, 3, 3); }
+                    pre {
+                        background-color:rgb(178, 182, 189);
+                        color:rgb(7, 7, 7);
+                        padding: 10px;
+                        border-radius: 5px;
+                        overflow-x: auto;
+                        font-family: monospace;
+                        }
+                        .string { color: #98c379; }
+                        .number { color: #d19a66; }
+                        .boolean { color: #56b6c2; }
+                        .null { color: #e06c75; }
+                        .key { color: #e5c07b; }
             </style>
         </head>
+
         <body>
-            <pre>${generator.generate(text)}</pre>
+            <pre><code class="language-json" id="json-container"></code></pre>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+        <script>
+            document.getElementById("json-container").textContent = JSON.stringify(${generator.generate(text)}, null, 2);
+            Prism.highlightAll();
+        </script>
         </body>
         </html>
         `;
+        
     }
 
 }
