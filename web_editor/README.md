@@ -39,9 +39,4 @@ The streamlit listening port can be customized by setting the `--server.port` pa
 streamlit run server.py --server.port 2000
 ```
 
-By default, the server expects an Impropmptu REST service at `http://127.0.0.1:3000` as well as Ollama server at `http://127.0.0.1:11434`. You can override these settings by setting the `-i`/`--impromptu.url` and `o`/`--ollama.url` arguments. Please notice that these arguments **MUST** be passed after the `streamlit` arguments, and separated by two dashes, e.g.:
-
-```console
-streamlit run server.py --server.port 2000 -- --impromptu.url "http://example.com:3000" --ollama.url "http://example.com:11434"
-```
 
