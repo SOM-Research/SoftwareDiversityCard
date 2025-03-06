@@ -1,8 +1,11 @@
 # Software Diversity Card :busts_in_silhouette:
 
-Welcome to the main repository of the Software Diversity card. This repository contains a set of tools that helps you generate the diversity cards for your software and generate both JSON and Markdown formats to share with the world. The Software Diversity Card is a comprehensive approach to disclosing diverse information about the teams involved in the development and governance of the project, the user groups engaged in testing, and the specific software adaptations for different social groups. The goal is to facilitate the card creation to foster inclusive practices in open-source communities, academic journals, and forward-thinking businesses.
+Welcome to the main repository of the Software Diversity Card (SDC). This repository contains a set of tools that helps you generate the cards for your software projects, generating both the JSON and Markdown formats to share with the world. 
 
-This repository is part of an ongoing research project. Preprint: **to be announced soon**
+The SDC is a comprehensive approach to disclosing diversity information about the teams involved in the development and governance of the project, the user groups engaged in testing, and the specific software adaptations for different social groups. The card aims to foster inclusive practices in open-source communities, public administrations, and businesses. The SDC is part of an ongoing research, preprint **TBA**
+
+The best way to start is trying the webeditor [**online demo**](https://huggingface.co/spaces/JoanGiner/SoftwareDiversityCard-Generator). 
+
 
 ## Repository Structure
 
@@ -29,14 +32,14 @@ We hope these examples could help you use the tools. If you have any other quest
 
 If you want to create the card using the web editor, all the code and installation instructions are in the /web_editor folder. 
 
-Please note that we also have an open demo of the web editor here: **wwww.stillpending.org**
+Please note that we also have an open demo of the web editor [**here**](https://huggingface.co/spaces/JoanGiner/SoftwareDiversityCard-Generator). 
 
 
 ![alt text](web_editor/webEditor.png?raw=true)
 
 ## Contributing
 
-This project is being development as part of a research line of the [SOM Research Lab](https://som-research.github.io/) & the [Barcelona Supercomputing Center (BSC-CNS)](https://bsc.es)  , but we are open to contributions from the community. If you are interested in contributing to this project, please read the [GOVERNANCE.md](GOVERNANCE.md) document.
+This project is being developed as part of a research line of the [SOM Research Lab](https://som-research.github.io/) & the [Barcelona Supercomputing Center (BSC-CNS)](https://bsc.es) , but we are open to contributions from the community. If you are interested in contributing to this project, please read the [GOVERNANCE.md](GOVERNANCE.md) document.
 
 At SOM Research Lab we are dedicated to creating and maintaining welcoming, inclusive, safe, and harassment-free development spaces. Anyone participating will be subject to and agrees to sign on to our [code of conduct](CODE_OF_CONDUCT.md).
 
