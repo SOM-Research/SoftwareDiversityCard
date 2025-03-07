@@ -35,7 +35,7 @@ If you want to create the card using the web editor, all the code and installati
 Please note that we also have an open demo of the web editor [**here**](https://huggingface.co/spaces/JoanGiner/SoftwareDiversityCard-Generator). 
 
 
-![alt text](web_editor/webEditor.png?raw=true)
+![alt text](web_editor/webeditor.png?raw=true)
 
 ## Contributing
 
