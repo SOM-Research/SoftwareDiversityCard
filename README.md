@@ -1,4 +1,4 @@
-# Software Diversity Card :busts_in_silhouette:
+# Software Diversity Card 
 
 Welcome to the main repository of the Software Diversity Card (SDC). This repository contains a set of tools that helps you generate the cards for your software projects, generating both the JSON and Markdown formats to share with the world. 
 

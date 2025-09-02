@@ -36,9 +36,9 @@ export class MDDocumentGenerator implements Generator {
 
     generateMDfromJSON(sdc: any) : string {
         let result = new Array();
-        
+        //result.push('# Software Diversity Card of '+sdc.name);
         result.push(this.header('# Software Diversity Card of '+sdc.name));
-        result.push(this.header(sdc.desc));
+        result.push(this.header(sdc.description));
         result.push(this.header('## Card Summary'))
         result.push(this.addSummary(sdc));
         result.push(this.header('Below are listed the teams and individuals participanting in the project'));
